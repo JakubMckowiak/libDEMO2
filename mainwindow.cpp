@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QFile>
+#include <QIODevice>
 #include <QTextStream>
 #include <QString>
 #include <QMessageBox>
@@ -49,12 +50,18 @@ void MainWindow::on_submitAddBook_clicked()
         return;
     }
     QTextStream out(&file);
-    out <<ui->inputAddTitle->text()<<'|'<<ui->inputAddFirstName->text()<<'|'
-        <<ui->inputAddSurname->text()<<'|'<<ui->inputAddYear->text()<<'|'
+    if(ui->inputAddTitle->text().isEmpty()||ui->inputAddFirstName->text().isNull()||                 //if the parameters are empty, the finding method breaks
+            ui->inputAddSurname->text().isNull()||ui->inputAddYear->text().isNull())                 //so this line prevents it
+        QMessageBox::information(this,"Error","Please, fill all of the parameters",QMessageBox::Ok);
+
+    else {
+        out <<ui->inputAddTitle->text()<<'|'<<ui->inputAddFirstName->text()<<'|'                     //if the parameters are all existing
+        <<ui->inputAddSurname->text()<<'|'<<ui->inputAddYear->text()<<'|'                            //the book can be added to the Books.txt
         <<ui->inputAddGenere->currentText()<<"|0|\n";
+        QMessageBox::information(this,"title","The books has been added",QMessageBox::Ok);
+    }
     file.flush();
     file.close();
-    QMessageBox::information(this,"title","The books has been added",QMessageBox::Ok);
 }
 
 //function for finding an already existing book, with filters
@@ -62,72 +69,80 @@ void MainWindow::on_submitAddBook_clicked()
 void MainWindow::on_findBook_clicked()
 {
     QFile file("Books.txt");
-    if(!file.open(QFile::ReadOnly|QFile::Text)){
+    if(!file.open(QIODevice::ReadOnly|QIODevice::Text)){
         return;
     }
     QTextStream in(&file);
+    //ui->labelTest->setText("I'm here"+in.readLine()+in.readLine());
     QString bufforLine=".";
     QString bufforKey, bufforTitle, bufforFirstName,        //Line from .txt file; Key word from .txt; the others are to pass the metadata
             bufforSurname,bufforYear,bufforGenere;                                      //of a found book to the ui table
-    bool bufforCheck;
+
     int bufforCount = 0;
+    while(bufforCount<15){                                              //the loop is for flushing already
+    ui->tableWidget->setItem(bufforCount, 0, new QTableWidgetItem("")); //existant items from the table
+    ui->tableWidget->setItem(bufforCount, 1, new QTableWidgetItem(""));
+    ui->tableWidget->setItem(bufforCount, 2, new QTableWidgetItem(""));
+    ui->tableWidget->setItem(bufforCount, 3, new QTableWidgetItem(""));
+    ui->tableWidget->setItem(bufforCount, 4, new QTableWidgetItem(""));
+    bufforCount++;
+    }
+    bufforCount=0;
+    int bufforFalse = 0;            //this variable is to count the unmatching parameters (if 0 in the end, all of the
+                                                                                            //chosen parameters are eql)
+    while(!file.seek(-1)&&bufforCount<15){
+        bufforLine = in.readLine();                    //getting a line from the Books.txt file using QFileStream
+        if(bufforLine.isNull())break;                  //check if the line, that we are going to operate on is not the end of the file, if so - the loop breaks
+        bufforFalse = 0;                               //integer variable to for mettring missmatches
 
-    while((!file.atEnd())&&(bufforCount<15)){
-
-        bufforLine = in.readLine();                                     //getting a line from the Books.txt file
-        while(bufforLine!=nullptr){                                     //this line is only here not to waste time for checking every Key in the line
             bufforKey=bufforLine.chopped(bufforLine.length()-bufforLine.indexOf('|'));    //passing only the title from bufforLine to bufforKey
-            bufforLine.remove(bufforKey+'|');
-            if((ui->radioButtonTitle->isChecked())&&                    //if the filter is on
-                    (bufforKey!=ui->inputAddTitle->text())) break;   //and ui key value != file key value
+            bufforLine.remove(bufforKey+'|');                                             //removing the taken Key word (here it is title) from the current line
+
+            if((ui->checkBoxTitle->isChecked())&&                            //if the filter (here it is title) is turned on (checkBox is checked)
+                    (bufforKey!=ui->inputAddTitle->text())) bufforFalse++;   //and ui key word value != file key word value,
+                                                                             //we count that missmatch with bufforFalse mettring
             bufforTitle=bufforKey;
-            ui->labelTest->setText("I'm here" + bufforKey);
+
 
             bufforKey=bufforLine.chopped(bufforLine.length()-bufforLine.indexOf('|'));
             bufforLine.remove(bufforKey+'|');
-            if((ui->radioButtonFirstName->isChecked())&&
-                    (bufforKey!=ui->inputAddFirstName->text())) break;
+            if((ui->checkBoxFirstName->isChecked())&&
+                    (bufforKey!=ui->inputAddFirstName->text())) bufforFalse++;
             bufforFirstName=bufforKey;
 
             bufforKey=bufforLine.chopped(bufforLine.length()-bufforLine.indexOf('|'));
             bufforLine.remove(bufforKey+'|');
-            if((ui->radioButtonSurname->isChecked())&&
-                    (bufforKey!=ui->inputAddSurname->text())) break;
+            if((ui->checkBoxSurname->isChecked())&&
+                    (bufforKey!=ui->inputAddSurname->text())) bufforFalse++;
             bufforSurname=bufforKey;
 
             bufforKey=bufforLine.chopped(bufforLine.length()-bufforLine.indexOf('|'));
             bufforLine.remove(bufforKey+'|');
-            if((ui->radioButtonYear->isChecked())&&
-                    (bufforKey!=ui->inputAddYear->text())) break;
+            if((ui->checkBoxYear->isChecked())&&
+                    (bufforKey!=ui->inputAddYear->text())) bufforFalse++;
             bufforYear=bufforKey;
 
             bufforKey=bufforLine.chopped(bufforLine.length()-bufforLine.indexOf('|'));
             bufforLine.remove(bufforKey+'|');
-            if((ui->radioButtonGenere->isChecked())&&
-                    (bufforKey!=ui->inputAddGenere->currentText())) break; //small change caused by the specifics of Comboboxes used for "book's genere" input
+            if((ui->checkBoxGenere->isChecked())&&
+                    (bufforKey!=ui->inputAddGenere->currentText())) bufforFalse++; //small change caused by the specifics of Comboboxes used for "book's genere" input
             bufforGenere=bufforKey;
 
 
-            bufforCheck = true;
-            bufforLine = nullptr;          //there is still data not needed in this search that needs to be destroyed
-        }
-        bufforLine='.';
-        if(bufforCheck==true){
+        if(bufforFalse==0){
             ui->tableWidget->setItem(bufforCount, 0, new QTableWidgetItem(bufforTitle));
             ui->tableWidget->setItem(bufforCount, 1, new QTableWidgetItem(bufforFirstName));
             ui->tableWidget->setItem(bufforCount, 2, new QTableWidgetItem(bufforSurname));
             ui->tableWidget->setItem(bufforCount, 3, new QTableWidgetItem(bufforGenere));
             ui->tableWidget->setItem(bufforCount, 4, new QTableWidgetItem(bufforYear));
             bufforCount++;
-            bufforCheck = false;
         }
-
     }
     file.close();
 
 }
 
-void MainWindow::on_deleteBook_clicked()
+void MainWindow::on_deleteBook_clicked()  //the method is working now as a testing tool, in next commit we'll make it work
 {                          //X, Y, item
     ui->tableWidget->setItem(0, 0, new QTableWidgetItem(ui->inputAddTitle->text()));
     ui->tableWidget->setItem(0, 1, new QTableWidgetItem(ui->inputAddFirstName->text()));

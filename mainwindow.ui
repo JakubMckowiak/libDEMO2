@@ -335,7 +335,7 @@
          </column>
          <column>
           <property name="text">
-           <string> </string>
+           <string/>
           </property>
          </column>
          <column>
@@ -359,44 +359,8 @@
           </rect>
          </property>
          <layout class="QGridLayout" name="gridLayout_2">
-          <item row="5" column="0">
-           <widget class="QRadioButton" name="radioButtonYear">
-            <property name="font">
-             <font>
-              <pointsize>10</pointsize>
-             </font>
-            </property>
-            <property name="text">
-             <string>Year of publishment</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="0">
-           <widget class="QRadioButton" name="radioButtonSurname">
-            <property name="font">
-             <font>
-              <pointsize>10</pointsize>
-             </font>
-            </property>
-            <property name="text">
-             <string>Surname</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0">
-           <widget class="QRadioButton" name="radioButtonFirstName">
-            <property name="font">
-             <font>
-              <pointsize>10</pointsize>
-             </font>
-            </property>
-            <property name="text">
-             <string>First name</string>
-            </property>
-           </widget>
-          </item>
           <item row="1" column="0">
-           <widget class="QRadioButton" name="radioButtonTitle">
+           <widget class="QCheckBox" name="checkBoxTitle">
             <property name="font">
              <font>
               <pointsize>10</pointsize>
@@ -407,8 +371,20 @@
             </property>
            </widget>
           </item>
+          <item row="2" column="0">
+           <widget class="QCheckBox" name="checkBoxFirstName">
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>First name</string>
+            </property>
+           </widget>
+          </item>
           <item row="4" column="0">
-           <widget class="QRadioButton" name="radioButtonGenere">
+           <widget class="QCheckBox" name="checkBoxGenere">
             <property name="font">
              <font>
               <pointsize>10</pointsize>
@@ -416,6 +392,30 @@
             </property>
             <property name="text">
              <string>Genere</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QCheckBox" name="checkBoxSurname">
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Surname</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="0">
+           <widget class="QCheckBox" name="checkBoxYear">
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Year of publishment</string>
             </property>
            </widget>
           </item>
