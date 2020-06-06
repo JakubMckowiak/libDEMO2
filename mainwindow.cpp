@@ -59,21 +59,79 @@ void MainWindow::on_submitAddBook_clicked()
 
 //function for finding an already existing book, with filters
 
-void MainWindow::on_pushButton_2_clicked()
+void MainWindow::on_findBook_clicked()
 {
     QFile file("Books.txt");
-    if(!file.open(QFile::ReadOnly|QFile::Text|QIODevice::Append)){
+    if(!file.open(QFile::ReadOnly|QFile::Text)){
         return;
     }
     QTextStream in(&file);
-    QString buffor;
-    while(!file.atEnd()){
-        buffor = in.readLine();
+    QString bufforLine=".";
+    QString bufforKey, bufforTitle, bufforFirstName,        //Line from .txt file; Key word from .txt; the others are to pass the metadata
+            bufforSurname,bufforYear,bufforGenere;                                      //of a found book to the ui table
+    bool bufforCheck;
+    int bufforCount = 0;
 
-        //
-        // !! METHOD NOT FINISHED !!
-        //
+    while((!file.atEnd())&&(bufforCount<15)){
+
+        bufforLine = in.readLine();                                     //getting a line from the Books.txt file
+        while(bufforLine!=nullptr){                                     //this line is only here not to waste time for checking every Key in the line
+            bufforKey=bufforLine.chopped(bufforLine.length()-bufforLine.indexOf('|'));    //passing only the title from bufforLine to bufforKey
+            bufforLine.remove(bufforKey+'|');
+            if((ui->radioButtonTitle->isChecked())&&                    //if the filter is on
+                    (bufforKey!=ui->inputAddTitle->text())) break;   //and ui key value != file key value
+            bufforTitle=bufforKey;
+            ui->labelTest->setText("I'm here" + bufforKey);
+
+            bufforKey=bufforLine.chopped(bufforLine.length()-bufforLine.indexOf('|'));
+            bufforLine.remove(bufforKey+'|');
+            if((ui->radioButtonFirstName->isChecked())&&
+                    (bufforKey!=ui->inputAddFirstName->text())) break;
+            bufforFirstName=bufforKey;
+
+            bufforKey=bufforLine.chopped(bufforLine.length()-bufforLine.indexOf('|'));
+            bufforLine.remove(bufforKey+'|');
+            if((ui->radioButtonSurname->isChecked())&&
+                    (bufforKey!=ui->inputAddSurname->text())) break;
+            bufforSurname=bufforKey;
+
+            bufforKey=bufforLine.chopped(bufforLine.length()-bufforLine.indexOf('|'));
+            bufforLine.remove(bufforKey+'|');
+            if((ui->radioButtonYear->isChecked())&&
+                    (bufforKey!=ui->inputAddYear->text())) break;
+            bufforYear=bufforKey;
+
+            bufforKey=bufforLine.chopped(bufforLine.length()-bufforLine.indexOf('|'));
+            bufforLine.remove(bufforKey+'|');
+            if((ui->radioButtonGenere->isChecked())&&
+                    (bufforKey!=ui->inputAddGenere->currentText())) break; //small change caused by the specifics of Comboboxes used for "book's genere" input
+            bufforGenere=bufforKey;
+
+
+            bufforCheck = true;
+            bufforLine = nullptr;          //there is still data not needed in this search that needs to be destroyed
+        }
+        bufforLine='.';
+        if(bufforCheck==true){
+            ui->tableWidget->setItem(bufforCount, 0, new QTableWidgetItem(bufforTitle));
+            ui->tableWidget->setItem(bufforCount, 1, new QTableWidgetItem(bufforFirstName));
+            ui->tableWidget->setItem(bufforCount, 2, new QTableWidgetItem(bufforSurname));
+            ui->tableWidget->setItem(bufforCount, 3, new QTableWidgetItem(bufforGenere));
+            ui->tableWidget->setItem(bufforCount, 4, new QTableWidgetItem(bufforYear));
+            bufforCount++;
+            bufforCheck = false;
+        }
 
     }
     file.close();
+
+}
+
+void MainWindow::on_deleteBook_clicked()
+{                          //X, Y, item
+    ui->tableWidget->setItem(0, 0, new QTableWidgetItem(ui->inputAddTitle->text()));
+    ui->tableWidget->setItem(0, 1, new QTableWidgetItem(ui->inputAddFirstName->text()));
+    ui->tableWidget->setItem(0, 2, new QTableWidgetItem(ui->inputAddSurname->text()));
+    ui->tableWidget->setItem(0, 3, new QTableWidgetItem(ui->inputAddGenere->currentText()));
+    ui->tableWidget->setItem(0, 4, new QTableWidgetItem(ui->inputAddYear->text()));
 }

@@ -217,7 +217,7 @@
           <string>Add the book</string>
          </property>
         </widget>
-        <widget class="QPushButton" name="pushButton">
+        <widget class="QPushButton" name="deleteBook">
          <property name="geometry">
           <rect>
            <x>180</x>
@@ -243,6 +243,15 @@
            <width>531</width>
            <height>451</height>
           </rect>
+         </property>
+         <property name="editTriggers">
+          <set>QAbstractItemView::NoEditTriggers</set>
+         </property>
+         <property name="selectionMode">
+          <enum>QAbstractItemView::SingleSelection</enum>
+         </property>
+         <property name="selectionBehavior">
+          <enum>QAbstractItemView::SelectRows</enum>
          </property>
          <row>
           <property name="text">
@@ -326,7 +335,7 @@
          </column>
          <column>
           <property name="text">
-           <string>Nowa kolumna</string>
+           <string> </string>
           </property>
          </column>
          <column>
@@ -412,7 +421,7 @@
           </item>
          </layout>
         </widget>
-        <widget class="QPushButton" name="pushButton_2">
+        <widget class="QPushButton" name="findBook">
          <property name="geometry">
           <rect>
            <x>180</x>
@@ -428,6 +437,19 @@
          </property>
          <property name="text">
           <string>Find the book</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="labelTest">
+         <property name="geometry">
+          <rect>
+           <x>180</x>
+           <y>470</y>
+           <width>701</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
          </property>
         </widget>
        </widget>
