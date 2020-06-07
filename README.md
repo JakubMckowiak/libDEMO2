@@ -1,3 +1,5 @@
+
+
 # libDEMO2  
 
 **!work in progress!**
@@ -13,6 +15,20 @@ Existing functionality:
 - [x] Getting information about certain users from the memory
 - [x] Deleting users from memory
 
+- [ ] Adding books to a user account (NEED'S REWORKING!)
+
 Planned functionality:
 
-- [ ] Adding books to a user account
+- [ ] By double clicking User's row, access all of the books he possesses 
+
+Known issues to fix:
+
+- [ ] No reload of data in both tables after clicking 'Return the book' nor messagebox to approve the action (which is done in the background) 
+
+- [ ] When user's account is deleted there is no mechanism to remove his possessions in book.txt record (to block or the construct the method)
+
+- [ ] When book is deleted, user's counter is not decreased (block or construct the method)
+
+- [ ] The whole project needs validation of data
+
+  

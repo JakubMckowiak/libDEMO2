@@ -30,6 +30,10 @@ private slots:
 
     void on_deleteUser_clicked();
 
+    void on_giveBookToUser_clicked();
+
+    void on_returnBookFromUser_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

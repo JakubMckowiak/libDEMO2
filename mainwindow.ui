@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1018</width>
-    <height>544</height>
+    <height>543</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -398,7 +398,7 @@
            <x>10</x>
            <y>11</y>
            <width>341</width>
-           <height>241</height>
+           <height>211</height>
           </rect>
          </property>
          <layout class="QFormLayout" name="formLayout_6">
@@ -522,22 +522,6 @@
           <item row="6" column="1">
            <widget class="QLineEdit" name="inputUserEmail"/>
           </item>
-          <item row="7" column="1">
-           <spacer name="verticalSpacer_24">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeType">
-             <enum>QSizePolicy::Fixed</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>13</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
          </layout>
         </widget>
         <widget class="QWidget" name="gridLayoutWidget_3">
@@ -600,11 +584,11 @@
           </item>
          </layout>
         </widget>
-        <widget class="QPushButton" name="deleteBookFromUser">
+        <widget class="QPushButton" name="giveBookToUser">
          <property name="geometry">
           <rect>
-           <x>180</x>
-           <y>380</y>
+           <x>190</x>
+           <y>340</y>
            <width>131</width>
            <height>31</height>
           </rect>
@@ -615,7 +599,7 @@
           </font>
          </property>
          <property name="text">
-          <string>Return book</string>
+          <string>Possess the book</string>
          </property>
         </widget>
         <widget class="QTableWidget" name="tableWidgetUsers">
@@ -665,8 +649,8 @@
         <widget class="QPushButton" name="findUser">
          <property name="geometry">
           <rect>
-           <x>180</x>
-           <y>330</y>
+           <x>190</x>
+           <y>290</y>
            <width>131</width>
            <height>31</height>
           </rect>
@@ -683,8 +667,8 @@
         <widget class="QPushButton" name="submitUserAdd">
          <property name="geometry">
           <rect>
-           <x>180</x>
-           <y>280</y>
+           <x>190</x>
+           <y>240</y>
            <width>131</width>
            <height>31</height>
           </rect>
@@ -701,8 +685,8 @@
         <widget class="QPushButton" name="deleteUser">
          <property name="geometry">
           <rect>
-           <x>180</x>
-           <y>430</y>
+           <x>190</x>
+           <y>440</y>
            <width>131</width>
            <height>31</height>
           </rect>
@@ -733,6 +717,54 @@
          </property>
          <property name="selectionBehavior">
           <enum>QAbstractItemView::SelectRows</enum>
+         </property>
+         <column>
+          <property name="text">
+           <string>Title</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Author's name</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>&amp; surname</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Year of pub.</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Genere</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Owner</string>
+          </property>
+         </column>
+        </widget>
+        <widget class="QPushButton" name="returnBookFromUser">
+         <property name="geometry">
+          <rect>
+           <x>190</x>
+           <y>390</y>
+           <width>131</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Return book</string>
          </property>
         </widget>
        </widget>
