@@ -8,6 +8,7 @@ Existing functionality:
 
 - [x] Adding new books to the memory
 - [x] Finding books in the memory
+<<<<<<< HEAD
 - [x] Deleting books from the memory
 
 Planned functionality:
@@ -16,3 +17,13 @@ Planned functionality:
 - [ ] Adding books to a user account
 - [ ] Getting information about certain users from the memory
 - [ ] Deleting users from the memory
+=======
+
+Planned functionality:
+
+- [ ] Deleting books from the memory
+- [ ] Adding new users
+- [ ] Adding books to a user account
+- [ ] Getting information about certain users from the memory
+- [ ] Deleting users from the memory
+>>>>>>> d4436d94d51729dab294f9131532c82998029d3a

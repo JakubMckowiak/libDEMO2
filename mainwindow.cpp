@@ -149,7 +149,7 @@ void MainWindow::on_findBook_clicked()
     file.close();
 }
 
-void MainWindow::on_deleteBook_clicked()    //the method operates on two .txt files
+void MainWindow::on_deleteBook_clicked(){    //the method operates on two .txt files
                                             //(Books.txt and BooksBuffor.txt) rewrinting everyting except
                                             //data selected from the table (variable SelectedRow)
     int row = ui->tableWidget->currentRow();
