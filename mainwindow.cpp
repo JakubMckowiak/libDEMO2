@@ -6,6 +6,7 @@
 #include <QString>
 #include <QMessageBox>
 
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -76,7 +77,7 @@ void MainWindow::on_findBook_clicked()
     //ui->labelTest->setText("I'm here"+in.readLine()+in.readLine());
     QString bufforLine=".";
     QString bufforKey, bufforTitle, bufforFirstName,        //Line from .txt file; Key word from .txt; the others are to pass the metadata
-            bufforSurname,bufforYear,bufforGenere;                                      //of a found book to the ui table
+            bufforSurname,bufforYear,bufforGenere, bufforPossessor;                                      //of a found book to the ui table
 
     int bufforCount = 0;
     while(bufforCount<15){                                              //the loop is for flushing already
@@ -85,8 +86,10 @@ void MainWindow::on_findBook_clicked()
     ui->tableWidget->setItem(bufforCount, 2, new QTableWidgetItem(""));
     ui->tableWidget->setItem(bufforCount, 3, new QTableWidgetItem(""));
     ui->tableWidget->setItem(bufforCount, 4, new QTableWidgetItem(""));
+    ui->tableWidget->setItem(bufforCount, 5, new QTableWidgetItem(""));
     bufforCount++;
     }
+
     bufforCount=0;
     int bufforFalse = 0;            //this variable is to count the unmatching parameters (if 0 in the end, all of the
                                                                                             //chosen parameters are eql)
@@ -128,25 +131,64 @@ void MainWindow::on_findBook_clicked()
                     (bufforKey!=ui->inputAddGenere->currentText())) bufforFalse++; //small change caused by the specifics of Comboboxes used for "book's genere" input
             bufforGenere=bufforKey;
 
+            bufforKey = bufforLine.remove('|'); //we have '|' to remove only
+            bufforPossessor=bufforKey;
+
+
 
         if(bufforFalse==0){
             ui->tableWidget->setItem(bufforCount, 0, new QTableWidgetItem(bufforTitle));
             ui->tableWidget->setItem(bufforCount, 1, new QTableWidgetItem(bufforFirstName));
             ui->tableWidget->setItem(bufforCount, 2, new QTableWidgetItem(bufforSurname));
-            ui->tableWidget->setItem(bufforCount, 3, new QTableWidgetItem(bufforGenere));
-            ui->tableWidget->setItem(bufforCount, 4, new QTableWidgetItem(bufforYear));
+            ui->tableWidget->setItem(bufforCount, 3, new QTableWidgetItem(bufforYear));
+            ui->tableWidget->setItem(bufforCount, 4, new QTableWidgetItem(bufforGenere));
+            ui->tableWidget->setItem(bufforCount, 5, new QTableWidgetItem(bufforPossessor));
             bufforCount++;
         }
     }
     file.close();
-
 }
 
-void MainWindow::on_deleteBook_clicked()  //the method is working now as a testing tool, in next commit we'll make it work
-{                          //X, Y, item
-    ui->tableWidget->setItem(0, 0, new QTableWidgetItem(ui->inputAddTitle->text()));
-    ui->tableWidget->setItem(0, 1, new QTableWidgetItem(ui->inputAddFirstName->text()));
-    ui->tableWidget->setItem(0, 2, new QTableWidgetItem(ui->inputAddSurname->text()));
-    ui->tableWidget->setItem(0, 3, new QTableWidgetItem(ui->inputAddGenere->currentText()));
-    ui->tableWidget->setItem(0, 4, new QTableWidgetItem(ui->inputAddYear->text()));
+void MainWindow::on_deleteBook_clicked()    //the method operates on two .txt files
+                                            //(Books.txt and BooksBuffor.txt) rewrinting everyting except
+                                            //data selected from the table (variable SelectedRow)
+    int row = ui->tableWidget->currentRow();
+    QString SelectedRow;
+
+    for(int col=0;col<6;col++)
+    SelectedRow = SelectedRow + ui->tableWidget->item(row,col)->text() + '|';
+                                            //SelectedRow collects data from the whole selected row
+    QString bufforLine = ".";
+
+    QFile fileIn("Books.txt");              //the file we'll read from
+        if(!fileIn.open(QIODevice::ReadOnly|QIODevice::Text)){
+            return;
+        }
+    QTextStream in(&fileIn);
+
+    QFile fileOut("BooksBuffor.txt");       //the file we'll write to
+        if(!fileOut.open(QIODevice::WriteOnly|QIODevice::Text)){
+            return;
+        }
+
+    QTextStream out(&fileOut);
+    bool safetyFirst=0;     //this variable is being used to prevent program from braking
+                            //caused by inserting two empty lines at the end of a file
+        while(!bufforLine.isNull())
+        {
+            bufforLine = in.readLine();
+            if(bufforLine != SelectedRow){  //if the read line is eql to data selected from a row
+                                            //it won't rewrite it to the new file
+                if(!safetyFirst)
+                    out <<bufforLine;
+                else out <<"\n"<< bufforLine;
+                safetyFirst=true;
+            }
+        }
+
+        fileIn.close();
+        fileOut.close();
+
+        remove("Books.txt"); //deleting the old file
+        rename("BooksBuffor.txt","Books.txt"); //files' names cleaning
 }

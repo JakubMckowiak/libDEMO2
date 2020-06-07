@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>925</width>
-    <height>563</height>
+    <width>1018</width>
+    <height>544</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,8 +19,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>921</width>
-      <height>521</height>
+      <width>1011</width>
+      <height>501</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
@@ -58,9 +58,6 @@
             </property>
            </widget>
           </item>
-          <item row="0" column="1">
-           <widget class="QLineEdit" name="inputAddTitle"/>
-          </item>
           <item row="2" column="0">
            <widget class="QLabel" name="label_2">
             <property name="font">
@@ -75,9 +72,6 @@
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
-          </item>
-          <item row="2" column="1">
-           <widget class="QLineEdit" name="inputAddFirstName"/>
           </item>
           <item row="3" column="1">
            <spacer name="verticalSpacer_3">
@@ -110,9 +104,6 @@
             </property>
            </widget>
           </item>
-          <item row="4" column="1">
-           <widget class="QLineEdit" name="inputAddSurname"/>
-          </item>
           <item row="5" column="1">
            <spacer name="verticalSpacer_4">
             <property name="orientation">
@@ -137,15 +128,12 @@
              </font>
             </property>
             <property name="text">
-             <string>Genere</string>
+             <string>Year of publishment</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
-          </item>
-          <item row="6" column="1">
-           <widget class="QComboBox" name="inputAddGenere"/>
           </item>
           <item row="7" column="1">
            <spacer name="verticalSpacer_5">
@@ -171,15 +159,12 @@
              </font>
             </property>
             <property name="text">
-             <string>Year of publishment</string>
+             <string>Genere</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
-          </item>
-          <item row="8" column="1">
-           <widget class="QLineEdit" name="inputAddYear"/>
           </item>
           <item row="1" column="1">
            <spacer name="verticalSpacer_2">
@@ -196,6 +181,21 @@
              </size>
             </property>
            </spacer>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="inputAddTitle"/>
+          </item>
+          <item row="2" column="1">
+           <widget class="QLineEdit" name="inputAddFirstName"/>
+          </item>
+          <item row="4" column="1">
+           <widget class="QLineEdit" name="inputAddSurname"/>
+          </item>
+          <item row="6" column="1">
+           <widget class="QLineEdit" name="inputAddYear"/>
+          </item>
+          <item row="8" column="1">
+           <widget class="QComboBox" name="inputAddGenere"/>
           </item>
          </layout>
         </widget>
@@ -239,8 +239,8 @@
          <property name="geometry">
           <rect>
            <x>360</x>
-           <y>11</y>
-           <width>531</width>
+           <y>10</y>
+           <width>631</width>
            <height>451</height>
           </rect>
          </property>
@@ -320,6 +320,11 @@
          </row>
          <row>
           <property name="text">
+           <string>14</string>
+          </property>
+         </row>
+         <row>
+          <property name="text">
            <string>15</string>
           </property>
          </row>
@@ -330,12 +335,17 @@
          </column>
          <column>
           <property name="text">
-           <string>Author</string>
+           <string>Author's name</string>
           </property>
          </column>
          <column>
           <property name="text">
-           <string/>
+           <string>&amp; surname</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Year of pub.</string>
           </property>
          </column>
          <column>
@@ -345,7 +355,7 @@
          </column>
          <column>
           <property name="text">
-           <string>Pub.</string>
+           <string>Owner</string>
           </property>
          </column>
         </widget>
@@ -468,7 +478,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>925</width>
+     <width>1018</width>
      <height>21</height>
     </rect>
    </property>

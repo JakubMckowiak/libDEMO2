@@ -18,7 +18,7 @@ public:
 private slots:
     void on_submitAddBook_clicked();
 
-    void on_pushButton_2_clicked();
+   // void on_pushButton_2_clicked();
 
     void on_deleteBook_clicked();
 
