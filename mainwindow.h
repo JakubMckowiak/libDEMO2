@@ -24,6 +24,12 @@ private slots:
 
     void on_findBook_clicked();
 
+    void on_submitUserAdd_clicked();
+
+    void on_findUser_clicked();
+
+    void on_deleteUser_clicked();
+
 private:
     Ui::MainWindow *ui;
 };
