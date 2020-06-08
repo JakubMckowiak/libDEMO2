@@ -5,6 +5,7 @@
 #include <QTextStream>
 #include <QString>
 #include <QMessageBox>
+#include <QChar>
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -50,6 +51,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_submitAddBook_clicked()
 {
+    if(MainWindow::dataValidation_books(false)){
     QFile file("Books.txt");
     if(!file.open(QFile::WriteOnly|QFile::Text|QIODevice::Append)){
         return;
@@ -67,12 +69,14 @@ void MainWindow::on_submitAddBook_clicked()
     }
     file.flush();
     file.close();
+    }
 }
 
 //function for finding an already existing book, with filters
 
 void MainWindow::on_findBook_clicked()
 {
+    if(MainWindow::dataValidation_books(true)){
     ui->tableWidget->clear(); //clears any leftovers from our table //it did work
     //int u = ui->tableWidget->rowCount()-1;
     QStringList columnHeaders;
@@ -168,6 +172,7 @@ void MainWindow::on_findBook_clicked()
         }
     }
     file.close();
+    }
 }
 
 void MainWindow::on_deleteBook_clicked(){    //the method operates on two .txt files
@@ -230,6 +235,7 @@ void MainWindow::on_deleteBook_clicked(){    //the method operates on two .txt f
 
 void MainWindow::on_submitUserAdd_clicked()
 {
+    if(MainWindow::dataValidation_users(false)){
     QFile file("Users.txt");
     if(!file.open(QFile::WriteOnly|QFile::Text|QIODevice::Append)){
         return;
@@ -247,10 +253,12 @@ void MainWindow::on_submitUserAdd_clicked()
     }
     file.flush();
     file.close();
+    }
 }
 
 void MainWindow::on_findUser_clicked()
 {
+    if(MainWindow::dataValidation_users(true)){
     ui->tableWidgetUsers->clear(); //clears any leftovers from our table
     //int u = ui->tableWidget->rowCount()-1;
     QStringList columnHeaders;
@@ -323,7 +331,7 @@ void MainWindow::on_findUser_clicked()
         }
     }
     file.close();
-
+}
 }
 
 void MainWindow::on_deleteUser_clicked()
@@ -601,6 +609,7 @@ void MainWindow::on_returnBookFromUser_clicked()
                 rename("UsersBuffor.txt","Users.txt"); //files' names cleaning
                 ui->tableWidgetUserBooks->setItem(ui->tableWidgetUserBooks->currentRow(),5,new QTableWidgetItem("0"));
                 ui->tableWidgetUsers->clearContents();
+                MainWindow::on_findUser_clicked();
                 QMessageBox::information(this,"Success!","Book retunred",QMessageBox::Ok);
     }
     else QMessageBox::information(this,"Error","This book has been already returned!",QMessageBox::Ok);
@@ -638,4 +647,322 @@ void MainWindow::on_editUserBooks_clicked()
 
     }
     else QMessageBox::information(this,"Error","Please select the user first",QMessageBox::Ok);
+}
+
+bool MainWindow::dataValidation_books(bool search){
+    bool check=true;
+    bool raportFirstName=true;
+    bool raportSurname=true;
+    bool raportYear=true;
+
+    //FILTERERS CHECK:
+    bool filterFirstName = ui->checkBoxFirstName->isChecked();
+    bool filterSurname = ui->checkBoxSurname->isChecked();
+    bool filterYear = ui->checkBoxYear->isChecked();
+
+    //NAMES VALIDATION (BASED ON ASCII SIGNS OUTCLUDE)
+
+    //FIRST NAME
+
+    //Getting input to a buffor string
+    QString stringBuffor= ui->inputAddFirstName->text();
+
+    //We've observed that there is space sign automatically added to textline when clicked
+    //so right there we are preventing the user from raging
+    if(stringBuffor[0]==' ')stringBuffor.remove(0,1);
+
+    //Formatting incorect (in mean of capitalization) input text
+    QChar a = stringBuffor[0].toUpper();
+    stringBuffor[0]=a;
+
+    for (int i=1;stringBuffor.length()>i;i++) {
+        if(stringBuffor[i-1].isUpper())a = stringBuffor[i].toLower();
+        else if(stringBuffor[i-1].isLower())a = stringBuffor[i].toLower();
+        else if(stringBuffor[i-1]==' ')a = stringBuffor[i].toUpper();
+        else if(stringBuffor[i-1]=='-')a = stringBuffor[i].toUpper();
+        else a = stringBuffor[i];
+        stringBuffor[i] = a;
+    }
+
+    if((search==true&&filterFirstName==true)||search==false){
+
+    //Input cannot be longer than 64 characters (should be enought for a name)
+        if(stringBuffor.length()>63) raportFirstName = false;
+
+    //Checking every character in the input (if isn't letter, '-', or ' ')
+    for(int i=0;i<stringBuffor.length();i++){
+        if(!(stringBuffor[i].isLetter())&&(stringBuffor[i]!='-')&&(stringBuffor[i]!=' '))
+            raportFirstName=false;
+    }
+    }
+    //if the input is valid, we put the formatted data back to the textline we took it from
+    if(raportFirstName&&filterFirstName)ui->inputAddFirstName->setText(stringBuffor);
+
+    //END OF FIRST NAME VALIDATION
+
+    //SURNAME
+
+    stringBuffor= ui->inputAddSurname->text();
+
+    //We've observed that there is "\000" string automatically added to
+    //textline when clicked after using 'find' functionality,
+    //so right there we are preventing the user from raging
+
+
+    //Formatting incorect (in mean of capitalization) input text
+    a = stringBuffor[0].toUpper();
+    stringBuffor[0] = a;
+
+    for (int i=1;stringBuffor.length()>i;i++) {
+        if(stringBuffor[i-1].isUpper())a = stringBuffor[i].toLower();
+        else if(stringBuffor[i-1].isLower())a = stringBuffor[i].toLower();
+        else if(stringBuffor[i-1]==' ')a = stringBuffor[i].toUpper();
+        else if(stringBuffor[i-1]=='-')a = stringBuffor[i].toUpper();
+        else a = stringBuffor[i];
+        stringBuffor[i] = a;
+    }
+
+    if((search==true&&filterSurname==true)||search==false){
+
+    //Input cannot be longer than 64 characters (should be enought for a name)
+    if(stringBuffor.length()>63) raportSurname = false;
+
+    //Checking every character in the input (if isn't letter, '-', or ' ')
+    for(int i=0;i<stringBuffor.length();i++){
+        if(!(stringBuffor[i].isLetter())&&(stringBuffor[i]!='-')&&(stringBuffor[i]!=' '))
+            raportSurname=false;
+        }
+    }
+    //if the input is valid, we put the formatted data back to the textline we took it from
+    if(raportSurname&&filterSurname)ui->inputAddSurname->setText(stringBuffor);
+
+    //END OF SURNAME VALIDATION
+
+    //END OF NAMES VALIDATION
+
+    //YEAR'S VALIDATION
+    //(ASCII: 48-58 AND MAX 4 DIGITS INCLUDING '-' IN THE BEGGINING)
+
+    if((search==true&&filterYear==true)||search==false){
+    if(ui->inputAddYear->text().length()>4) raportYear=false;
+    for(int i=32;i<48;i++){
+    if(i!='-'){
+    if(ui->inputAddYear->text().contains(i)) raportYear=false;
+    }
+    else{if(ui->inputAddYear->text().indexOf('-')>0) raportYear=false;}
+    }
+
+    for(int i=58;i<127;i++){
+    if(ui->inputAddYear->text().contains(i)) raportYear=false;
+    }
+    }
+
+    //END OF YEAR'S VALIDATION
+
+
+
+    //FEEDBACK ON WHAT'S WRONG USING MESSAGEBOXES
+
+    if(raportFirstName==false){
+        QMessageBox::information(this,"Error","Incorrect format of the inputed first name (cannot use special characters and start with a capital letter and isn't longer than 64 characteres)",QMessageBox::Ok);
+        check=false;
+    }
+
+    if(raportSurname==false){
+        QMessageBox::information(this,"Error","Incorrect format of the inputed surname (cannot use special characters and start with a capital letter and isn't longer than 64 characters)",QMessageBox::Ok);
+        check=false;
+    }
+
+    if(raportYear==false){
+        QMessageBox::information(this,"Error","Incorrect format of the inputed year (choose from -999 to 9999)",QMessageBox::Ok);
+        check=false;
+    }
+
+    //END OF FEEDBACK
+
+    return check;
+}
+
+bool MainWindow::dataValidation_users(bool search){
+
+    bool check=true;
+    bool raportId=true;
+    bool raportFirstName=true;
+    bool raportSurname=true;
+    bool raportEmail=true;
+
+    //FILTERERS CHECK:
+    bool filterFirstName = ui->checkBoxUserFirstName->isChecked();
+    bool filterSurname = ui->checkBoxUserSurname->isChecked();
+    bool filterId = ui->checkBoxUserID->isChecked();
+    bool filterEmail = ui->checkBoxUserEmail->isChecked();
+
+    //ID'S VALIDATION
+    //(ASCII: 48-58 AND MAX 20 DIGITS MIN 1 AND NOT SMALLER THAN 1 [0 IS RESERVED FOR THE LIBRARY])
+
+    if((search==true&&filterId==true)||search==false){
+    if(ui->inputUserID->text().length()>20||(ui->inputUserID->text().toLong())<1) raportId=false;
+    for(int i=32;i<48;i++){
+    if(ui->inputUserID->text().contains(i)) raportId=false;
+    }
+
+    for(int i=58;i<127;i++){
+    if(ui->inputUserID->text().contains(i)) raportId=false;
+    }
+    }
+
+    //END OF ID'S VALIDATION
+
+    //NAMES VALIDATION (BASED ON ASCII SIGNS OUTCLUDE)
+
+    //FIRST NAME
+
+    //Getting input to a buffor string
+    QString stringBuffor= ui->inputUserFirstName->text();
+
+    //We've observed that there is space sign automatically added to textline when clicked
+    //so right there we are preventing the user from raging
+    if(stringBuffor[0]==' ')stringBuffor.remove(0,1);
+
+    //Formatting incorect (in mean of capitalization) input text
+    QChar a = stringBuffor[0].toUpper();
+    stringBuffor[0]=a;
+
+    for (int i=1;stringBuffor.length()>i;i++) {
+        if(stringBuffor[i-1].isUpper())a = stringBuffor[i].toLower();
+        else if(stringBuffor[i-1].isLower())a = stringBuffor[i].toLower();
+        else if(stringBuffor[i-1]==' ')a = stringBuffor[i].toUpper();
+        else if(stringBuffor[i-1]=='-')a = stringBuffor[i].toUpper();
+        else a = stringBuffor[i];
+        stringBuffor[i] = a;
+    }
+
+    if((search==true&&filterFirstName==true)||search==false){
+
+    //Input cannot be longer than 64 characters (should be enought for a name)
+        if(stringBuffor.length()>63) raportFirstName = false;
+
+    //Checking every character in the input (if isn't letter, '-', or ' ')
+    for(int i=0;i<stringBuffor.length();i++){
+        if(!(stringBuffor[i].isLetter())&&(stringBuffor[i]!='-')&&(stringBuffor[i]!=' '))
+            raportFirstName=false;
+    }
+    }
+    //if the input is valid, we put the formatted data back to the textline we took it from
+    if(raportFirstName&&filterFirstName)ui->inputUserFirstName->setText(stringBuffor);
+
+    //END OF FIRST NAME VALIDATION
+
+    //SURNAME
+
+    stringBuffor = ui->inputUserSurname->text();
+
+    //We've observed that there is space sign automatically added to textline when clicked
+    //so right there we are preventing the user from raging
+    if(stringBuffor[0]==' ')stringBuffor.remove(0,1);
+
+    //Formatting incorect (in mean of capitalization) input text
+    a = stringBuffor[0].toUpper();
+    stringBuffor[0] = a;
+
+    for (int i=1;stringBuffor.length()>i;i++) {
+        if(stringBuffor[i-1].isUpper())a = stringBuffor[i].toLower();
+        else if(stringBuffor[i-1].isLower())a = stringBuffor[i].toLower();
+        else if(stringBuffor[i-1]==' ')a = stringBuffor[i].toUpper();
+        else if(stringBuffor[i-1]=='-')a = stringBuffor[i].toUpper();
+        else a = stringBuffor[i];
+        stringBuffor[i] = a;
+    }
+
+    if((search==true&&filterSurname==true)||search==false){
+
+    //Input cannot be longer than 64 characters (should be enought for a name)
+    if(stringBuffor.length()>63) raportSurname = false;
+
+    //Checking every character in the input (if isn't letter, '-', or ' ')
+    for(int i=0;i<stringBuffor.length();i++){
+        if(!(stringBuffor[i].isLetter())&&(stringBuffor[i]!='-')&&(stringBuffor[i]!=' '))
+            raportSurname=false;
+        }
+    }
+    //if the input is valid, we put the formatted data back to the textline we took it from
+    if(raportSurname&&filterSurname)ui->inputUserSurname->setText(stringBuffor);
+
+    //END OF NAMES VALIDATION
+
+    //END OF SURNAME VALIDATION
+
+
+
+    //EMAIL VALIDATION
+    //address validation:3 - 32 CHARS, A-Z, 0-9, ".", "_", STARTS WITH A LETTER
+
+    stringBuffor= ui->inputUserEmail->text();
+
+    //We've observed that there is space sign automatically added to textline when clicked
+    //so right there we are preventing the user from raging
+    if(stringBuffor[0]==' ')stringBuffor.remove(0,1);
+
+    //Formatting incorect (in mean of capitalization) input text
+    a = stringBuffor[0].toLower();
+    stringBuffor[0] = a;
+
+    for (int i=1;stringBuffor.length()>i;i++) {
+        if(stringBuffor[i-1].isUpper())a = stringBuffor[i].toLower();
+        stringBuffor[i] = a;
+    }
+
+    if((search==true&&filterEmail==true)||search==false){
+
+    //Input cannot be longer than 254 characters (should be enought for a name)
+    if(stringBuffor.length()>254) raportEmail = false;
+
+    //Since in email there can be only one '@' we need to prevent the user from inputting more than one
+    //by getting position of the first one, and allowing it only in that perticular possision
+    int monkeyPossition = stringBuffor.indexOf('@');
+    //if there is none, the input is valid
+    if(monkeyPossition == -1)raportEmail=false;
+
+    //Checking every character in the input (if isn't letter, '.', or '_', or one '@')
+    for(int i=0;i<stringBuffor.length();i++){
+        if(!(stringBuffor[i].isLetter())&&(stringBuffor[i]!='.')&&(stringBuffor[i]!='_')&&(stringBuffor[i]!='@'))
+            raportEmail=false;
+        if (stringBuffor[i]=='@'){
+            if (i!=monkeyPossition)
+                raportEmail=false;
+        }
+        }
+    }
+    //if the input is valid, we put the formatted data back to the textline we took it from
+    if(raportEmail&&filterEmail)ui->inputUserEmail->setText(stringBuffor);
+
+
+    //END OD EMAIL VALIDATION
+
+
+    //FEEDBACK ON WHAT'S WRONG USING MESSAGEBOXES
+
+    if(raportFirstName==false){
+        QMessageBox::information(this,"Error","Incorrect format of the inputed first name (cannot use special characters and start with a capital letter and cannot be longer than 64 characteres)",QMessageBox::Ok);
+        check=false;
+    }
+
+    if(raportSurname==false){
+        QMessageBox::information(this,"Error","Incorrect format of the inputed surname (cannot use special characters and start with a capital letter and cannot be longer than 64 characteres)",QMessageBox::Ok);
+        check=false;
+    }
+
+    if(raportId==false){
+        QMessageBox::information(this,"Error","Incorrect format of the inputed ID number (choose from 1 to 999999999)\nWe highly recommend using phone numbers as ID numbers",QMessageBox::Ok);
+        check=false;
+    }
+
+    if(raportEmail==false){
+        QMessageBox::information(this,"Error","Incorrect format of the inputed ID e-mail (a-z, 0-9, '.', '_', starts with a letter + @your_email_domain)",QMessageBox::Ok);
+        check=false;
+    }
+
+    //END OF FEEDBACK
+
+    return check;
 }

@@ -4,6 +4,8 @@
 
 It's a small demo of a library management system. It is made for learning object oriented c++ purpose and surely shouldn't be implemented in a real librarian environment - the program mainly processes few .txt files, so they are **not encrypted** and can be dangerous for the real life use. 
 
+
+
 Existing functionality:
 
 - [x] Adding new books to the memory
@@ -28,11 +30,12 @@ Fixed issues:
 - [x] When user's account is deleted there is no mechanism to remove his possessions in book.txt record (block the action)
 - [x] When book is deleted, user's counter is not decreased (block the action)
 - [x] 'Find the book' method not wiping previous searches
+- [x] The whole project needs validation of data (year as only 4 number char; email contains '@' etc.)
 
 
 
 Known issues to fix:
 
-- [ ] The whole project needs validation of data (year as only 4 number char; email contains '@' etc.)
+- [ ] Now we are going to look for any
 
   

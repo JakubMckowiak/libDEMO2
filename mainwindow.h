@@ -34,6 +34,10 @@ private slots:
 
     void on_editUserBooks_clicked();
 
+    bool dataValidation_books(bool search);
+
+    bool dataValidation_users(bool search);
+
 private:
     Ui::MainWindow *ui;
 };
