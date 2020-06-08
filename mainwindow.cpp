@@ -667,9 +667,14 @@ bool MainWindow::dataValidation_books(bool search){
     //Getting input to a buffor string
     QString stringBuffor= ui->inputAddFirstName->text();
 
-    //We've observed that there is space sign automatically added to textline when clicked
-    //so right there we are preventing the user from raging
-    if(stringBuffor[0]==' ')stringBuffor.remove(0,1);
+    //If user decides to be very unkind to the program and inputs many ' '
+    //we remove the trush right here
+    while(stringBuffor[0]==' ')
+        stringBuffor.remove(0,1);
+    for (int i = 1;stringBuffor.length()>i;i++) {
+        while(stringBuffor[i]==' '&&stringBuffor[i+1]==' ')
+            stringBuffor.remove(i,1);
+    }
 
     //Formatting incorect (in mean of capitalization) input text
     QChar a = stringBuffor[0].toUpper();
@@ -704,10 +709,14 @@ bool MainWindow::dataValidation_books(bool search){
 
     stringBuffor= ui->inputAddSurname->text();
 
-    //We've observed that there is "\000" string automatically added to
-    //textline when clicked after using 'find' functionality,
-    //so right there we are preventing the user from raging
-
+    //If user decides to be very unkind to the program and inputs many ' '
+    //we remove the trush right here
+    while(stringBuffor[0]==' ')
+        stringBuffor.remove(0,1);
+    for (int i = 1;stringBuffor.length()>i;i++) {
+        while(stringBuffor[i]==' '&&stringBuffor[i+1]==' ')
+            stringBuffor.remove(i,1);
+    }
 
     //Formatting incorect (in mean of capitalization) input text
     a = stringBuffor[0].toUpper();
@@ -820,6 +829,15 @@ bool MainWindow::dataValidation_users(bool search){
     //Getting input to a buffor string
     QString stringBuffor= ui->inputUserFirstName->text();
 
+    //If user decides to be very unkind to the program and inputs many ' '
+    //we remove the trush right here
+    while(stringBuffor[0]==' ')
+        stringBuffor.remove(0,1);
+    for (int i = 1;stringBuffor.length()>i;i++) {
+        while(stringBuffor[i]==' '&&stringBuffor[i+1]==' ')
+            stringBuffor.remove(i,1);
+    }
+
     //We've observed that there is space sign automatically added to textline when clicked
     //so right there we are preventing the user from raging
     if(stringBuffor[0]==' ')stringBuffor.remove(0,1);
@@ -857,9 +875,15 @@ bool MainWindow::dataValidation_users(bool search){
 
     stringBuffor = ui->inputUserSurname->text();
 
-    //We've observed that there is space sign automatically added to textline when clicked
-    //so right there we are preventing the user from raging
-    if(stringBuffor[0]==' ')stringBuffor.remove(0,1);
+    //If user decides to be very unkind to the program and inputs many ' '
+    //we remove the trush right here
+    while(stringBuffor[0]==' ')
+        stringBuffor.remove(0,1);
+    for (int i = 1;stringBuffor.length()>i;i++) {
+        while(stringBuffor[i]==' '&&stringBuffor[i+1]==' ')
+            stringBuffor.remove(i,1);
+    }
+
 
     //Formatting incorect (in mean of capitalization) input text
     a = stringBuffor[0].toUpper();
@@ -899,16 +923,22 @@ bool MainWindow::dataValidation_users(bool search){
 
     stringBuffor= ui->inputUserEmail->text();
 
-    //We've observed that there is space sign automatically added to textline when clicked
-    //so right there we are preventing the user from raging
-    if(stringBuffor[0]==' ')stringBuffor.remove(0,1);
+    //If user decides to be very unkind to the program and inputs many ' '
+    //we remove the trush right here
+    while(stringBuffor[0]==' ')
+        stringBuffor.remove(0,1);
+    for (int i = 1;stringBuffor.length()>i;i++) {
+        while(stringBuffor[i]==' '&&stringBuffor[i+1]==' ')
+            stringBuffor.remove(i,1);
+    }
 
     //Formatting incorect (in mean of capitalization) input text
     a = stringBuffor[0].toLower();
     stringBuffor[0] = a;
 
     for (int i=1;stringBuffor.length()>i;i++) {
-        if(stringBuffor[i-1].isUpper())a = stringBuffor[i].toLower();
+        if(stringBuffor[i].isUpper())a = stringBuffor[i].toLower();
+        else a = stringBuffor[i];
         stringBuffor[i] = a;
     }
 
