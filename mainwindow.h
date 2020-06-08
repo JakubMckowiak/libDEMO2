@@ -18,8 +18,6 @@ public:
 private slots:
     void on_submitAddBook_clicked();
 
-   // void on_pushButton_2_clicked();
-
     void on_deleteBook_clicked();
 
     void on_findBook_clicked();
@@ -33,6 +31,8 @@ private slots:
     void on_giveBookToUser_clicked();
 
     void on_returnBookFromUser_clicked();
+
+    void on_editUserBooks_clicked();
 
 private:
     Ui::MainWindow *ui;

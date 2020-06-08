@@ -27,7 +27,7 @@
      <item row="0" column="0">
       <widget class="QTabWidget" name="tabWidget">
        <property name="currentIndex">
-        <number>1</number>
+        <number>0</number>
        </property>
        <widget class="QWidget" name="Books">
         <attribute name="title">
@@ -203,7 +203,7 @@
          <property name="geometry">
           <rect>
            <x>180</x>
-           <y>310</y>
+           <y>290</y>
            <width>131</width>
            <height>31</height>
           </rect>
@@ -360,7 +360,7 @@
          <property name="geometry">
           <rect>
            <x>180</x>
-           <y>370</y>
+           <y>330</y>
            <width>131</width>
            <height>31</height>
           </rect>
@@ -385,6 +385,24 @@
          </property>
          <property name="text">
           <string/>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="editBook">
+         <property name="geometry">
+          <rect>
+           <x>180</x>
+           <y>370</y>
+           <width>131</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Edit the book</string>
          </property>
         </widget>
        </widget>
@@ -529,7 +547,7 @@
           <rect>
            <x>10</x>
            <y>270</y>
-           <width>139</width>
+           <width>101</width>
            <height>191</height>
           </rect>
          </property>
@@ -587,15 +605,15 @@
         <widget class="QPushButton" name="giveBookToUser">
          <property name="geometry">
           <rect>
-           <x>190</x>
-           <y>340</y>
-           <width>131</width>
+           <x>240</x>
+           <y>310</y>
+           <width>111</width>
            <height>31</height>
           </rect>
          </property>
          <property name="font">
           <font>
-           <pointsize>12</pointsize>
+           <pointsize>10</pointsize>
           </font>
          </property>
          <property name="text">
@@ -649,15 +667,15 @@
         <widget class="QPushButton" name="findUser">
          <property name="geometry">
           <rect>
-           <x>190</x>
-           <y>290</y>
-           <width>131</width>
+           <x>120</x>
+           <y>310</y>
+           <width>111</width>
            <height>31</height>
           </rect>
          </property>
          <property name="font">
           <font>
-           <pointsize>12</pointsize>
+           <pointsize>10</pointsize>
           </font>
          </property>
          <property name="text">
@@ -667,15 +685,15 @@
         <widget class="QPushButton" name="submitUserAdd">
          <property name="geometry">
           <rect>
-           <x>190</x>
-           <y>240</y>
-           <width>131</width>
+           <x>120</x>
+           <y>270</y>
+           <width>111</width>
            <height>31</height>
           </rect>
          </property>
          <property name="font">
           <font>
-           <pointsize>12</pointsize>
+           <pointsize>10</pointsize>
           </font>
          </property>
          <property name="text">
@@ -685,15 +703,15 @@
         <widget class="QPushButton" name="deleteUser">
          <property name="geometry">
           <rect>
-           <x>190</x>
-           <y>440</y>
-           <width>131</width>
+           <x>120</x>
+           <y>430</y>
+           <width>111</width>
            <height>31</height>
           </rect>
          </property>
          <property name="font">
           <font>
-           <pointsize>12</pointsize>
+           <pointsize>10</pointsize>
           </font>
          </property>
          <property name="text">
@@ -752,19 +770,55 @@
         <widget class="QPushButton" name="returnBookFromUser">
          <property name="geometry">
           <rect>
-           <x>190</x>
-           <y>390</y>
-           <width>131</width>
+           <x>240</x>
+           <y>430</y>
+           <width>111</width>
            <height>31</height>
           </rect>
          </property>
          <property name="font">
           <font>
-           <pointsize>12</pointsize>
+           <pointsize>10</pointsize>
           </font>
          </property>
          <property name="text">
           <string>Return book</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="editUserBooks">
+         <property name="geometry">
+          <rect>
+           <x>240</x>
+           <y>270</y>
+           <width>111</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>See user's books</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="editUser">
+         <property name="geometry">
+          <rect>
+           <x>120</x>
+           <y>350</y>
+           <width>111</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Edit the user</string>
          </property>
         </widget>
        </widget>

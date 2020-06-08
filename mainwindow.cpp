@@ -73,7 +73,7 @@ void MainWindow::on_submitAddBook_clicked()
 
 void MainWindow::on_findBook_clicked()
 {
-    //the line doesn't work ui->tableWidget->clear(); //clears any leftovers from our table
+    ui->tableWidget->clear(); //clears any leftovers from our table //it did work
     //int u = ui->tableWidget->rowCount()-1;
     QStringList columnHeaders;
     columnHeaders << "Title" << "Author's name" << "& surname" <<"Year of pub."<<
@@ -173,6 +173,7 @@ void MainWindow::on_findBook_clicked()
 void MainWindow::on_deleteBook_clicked(){    //the method operates on two .txt files
                                             //(Books.txt and BooksBuffor.txt) rewrinting everyting except
                                             //data selected from the table (variable SelectedRow)
+    if(ui->tableWidget->item(ui->tableWidget->currentRow(),5)->text()=="0"){
     int row = ui->tableWidget->currentRow();
     if (row==-1)QMessageBox::information(this,"Error","Please select book from table first",QMessageBox::Ok);
     else{
@@ -219,6 +220,8 @@ void MainWindow::on_deleteBook_clicked(){    //the method operates on two .txt f
         remove("Books.txt"); //deleting the old file
         rename("BooksBuffor.txt","Books.txt"); //files' names cleaning
     }
+    }
+    else QMessageBox::information(this,"Error","Before wiping data about the book, it must be returned to the library",QMessageBox::Ok);
 }
 
 //
@@ -328,6 +331,8 @@ void MainWindow::on_deleteUser_clicked()
     int row = ui->tableWidgetUsers->currentRow();
     if (row==-1)QMessageBox::information(this,"Error","Please select user from table first",QMessageBox::Ok);
     else{
+        if(ui->tableWidgetUsers->item(row,4)->text()==0){ //if the user still has any books on his counter,
+                                                          //our system won't allow to delete his account
     QString SelectedRow;
 
     for(int col=0;col<5;col++)
@@ -368,9 +373,11 @@ void MainWindow::on_deleteUser_clicked()
         remove("Users.txt"); //deleting the old file
         rename("UsersBuffor.txt","Books.txt"); //files' names cleaning
         }
-}
+        else QMessageBox::information(this,"Error","Cannot delete the user, until he doesn't return books",QMessageBox::Ok);
+    }
+    }
 
-void MainWindow::on_giveBookToUser_clicked() //NEED'S REWORKING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+void MainWindow::on_giveBookToUser_clicked()
 {
     int row = ui->tableWidgetUserBooks->currentRow(); //number of book's row is collected from a table
     int userRow = ui->tableWidgetUsers->currentRow(); //number of user's row is collected from a table
@@ -401,6 +408,7 @@ void MainWindow::on_giveBookToUser_clicked() //NEED'S REWORKING!!!!!!!!!!!!!!!!!
         }
 
     QTextStream out(&fileOut);
+
     bool safetyFirst=0;     //this variable is being used to prevent program from braking
                             //caused by inserting two empty lines at the end of a file
         while(!bufforLine.isNull())
@@ -436,14 +444,16 @@ void MainWindow::on_giveBookToUser_clicked() //NEED'S REWORKING!!!!!!!!!!!!!!!!!
         QTextStream outBA(&fileOutBookAmount); //the code below is taking placing increased book counter (variable amountOfBooks) in user's data line
 
         QFile fileInBookAmount("Users.txt");       //the file we'll write to
-            if(!fileInBookAmount.open(QIODevice::WriteOnly|QIODevice::Text)){
+            if(!fileInBookAmount.open(QIODevice::ReadOnly|QIODevice::Text)){
                 return;
             }
 
         QTextStream inBA(&fileInBookAmount);
 
+        SelectedRow.clear();
+
         for(int col=0;col<4;col++)
-        SelectedRow = SelectedRow + ui->tableWidgetUsers->item(row,col)->text() + '$';
+        SelectedRow = SelectedRow + ui->tableWidgetUsers->item(userRow,col)->text() + '$';
 
         bufforLine='.';
         safetyFirst=false;
@@ -459,7 +469,7 @@ void MainWindow::on_giveBookToUser_clicked() //NEED'S REWORKING!!!!!!!!!!!!!!!!!
                 safetyFirst=true;
             }
             else if(bufforLine.contains(SelectedRow)){
-                SelectedRow = SelectedRow + QString::number(amountOfBooks) + "$\n";
+                SelectedRow = SelectedRow + QString::number(amountOfBooks) + "$";
                 if(!safetyFirst)
                     outBA <<SelectedRow;
                 else outBA <<"\n"<< SelectedRow;
@@ -467,14 +477,16 @@ void MainWindow::on_giveBookToUser_clicked() //NEED'S REWORKING!!!!!!!!!!!!!!!!!
             }
         }
         fileOutBookAmount.close();
+        fileOutBookAmount.flush();
         fileInBookAmount.close();
         fileIn.close();
         fileOut.close();
+        fileOut.flush();
 
         remove("Books.txt"); //deleting the old file
-        rename("Books.txt","BooksBuffor.txt"); //files' names cleaning
+        rename("BooksBuffor.txt","Books.txt"); //files' names cleaning
         remove("Users.txt"); //deleting the old file
-        rename("Users.txt","UsersBuffor.txt"); //files' names cleaning
+        rename("UsersBuffor.txt","Users.txt"); //files' names cleaning
 
 
     }
@@ -532,6 +544,7 @@ void MainWindow::on_returnBookFromUser_clicked()
             }
 
             fileIn.close();
+            fileIn.flush();
             fileOut.close();
 
             remove("Books.txt"); //deleting the old file
@@ -547,7 +560,7 @@ void MainWindow::on_returnBookFromUser_clicked()
                 if(!fileOutUser.open(QIODevice::WriteOnly|QIODevice::Text)){
                     return;
                 }
-
+            int amountOfBooks;
             bufforLine='.';
             QTextStream outUser(&fileOutUser);
             safetyFirst=0;     //this variable is being used to prevent program from braking
@@ -568,7 +581,7 @@ void MainWindow::on_returnBookFromUser_clicked()
                         }
                         SelectedRow.remove(bufforLine);
                         bufforLine = bufforLine.remove('$');
-                        int amountOfBooks = bufforLine.toInt();
+                        amountOfBooks = bufforLine.toInt();
                         amountOfBooks--;
 
                         SelectedRow = SelectedRow + QString::number(amountOfBooks) + '$';
@@ -581,13 +594,48 @@ void MainWindow::on_returnBookFromUser_clicked()
                 }
 
                 fileInUser.close();
+                fileInUser.flush();
                 fileOutUser.close();
 
                 remove("Users.txt"); //deleting the old file
                 rename("UsersBuffor.txt","Users.txt"); //files' names cleaning
-
+                ui->tableWidgetUserBooks->setItem(ui->tableWidgetUserBooks->currentRow(),5,new QTableWidgetItem("0"));
+                ui->tableWidgetUsers->clearContents();
+                QMessageBox::information(this,"Success!","Book retunred",QMessageBox::Ok);
     }
-    else QMessageBox::information(this,"Error","This book has been already returned",QMessageBox::Ok);
+    else QMessageBox::information(this,"Error","This book has been already returned!",QMessageBox::Ok);
     }
     else QMessageBox::information(this,"Error","Please select the book, that has been delevered first",QMessageBox::Ok);
+}
+
+void MainWindow::on_editUserBooks_clicked()
+{
+    int j=0;
+    int userRow = ui->tableWidgetUsers->currentRow();   //getting selected row's number from a table
+    QString bufforKey,id = ui->tableWidgetUsers->item(userRow,0)->text();
+    if(userRow!=-1){
+        ui->tableWidgetUserBooks->clearContents(); //clearing table before writing on it
+
+        QFile file("Books.txt");
+        if(!file.open(QIODevice::ReadOnly|QIODevice::Text)){
+            return;
+        }
+        QTextStream in(&file);
+        QString bufforLine=in.readLine();
+        while(!bufforLine.isEmpty()){
+            if(bufforLine.contains(id)){ //if the line contains id number of our user, it's the books he has borrowed
+                for (int i=0; 6>i; i++) {
+                    bufforKey=bufforLine.chopped(bufforLine.length()-bufforLine.indexOf('|')); //in this loop we get the whole line chopped
+                    bufforLine.remove(bufforKey+'|');
+                    if(i==5)bufforKey.remove('|');
+                    ui->tableWidgetUserBooks->setItem(j,i,new QTableWidgetItem(bufforKey));    //and pushed to book's table's cells
+
+                }
+                j++;    //this iteration is getting every result in higher and higher (by number) rows
+            }
+            bufforLine=in.readLine();
+        }
+
+    }
+    else QMessageBox::information(this,"Error","Please select the user first",QMessageBox::Ok);
 }
