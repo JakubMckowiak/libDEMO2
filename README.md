@@ -6,7 +6,7 @@ It's a small demo of a library management system. It is made for learning object
 
 
 
-Existing functionality:
+#### Existing functionality:
 
 - [x] Adding new books to the memory
 - [x] Finding books in the memory
@@ -17,14 +17,14 @@ Existing functionality:
 - [x] Adding books to user's account
 - [x] Fast access to all of the books user possesses 
 
-Planned functionality:
+- [x] Ability to edit already existing books
+- [x] Ability to edit already existing users
 
-- [ ] Ability to edit already existing books
-- [ ] Ability to edit already existing users
+There are no more planned functions to be made
 
 ---
 
-Fixed issues:
+##### Fixed issues:
 
 - [x] No reload of data in both tables after clicking 'Return the book' nor messagebox to approve the action (which is done in the background) 
 - [x] When user's account is deleted there is no mechanism to remove his possessions in book.txt record (block the action)
@@ -34,8 +34,8 @@ Fixed issues:
 
 
 
-Known issues to fix:
+##### Known issues to fix:
 
-- [ ] Now we are going to look for any
+- [ ] Testing in progress
 
   

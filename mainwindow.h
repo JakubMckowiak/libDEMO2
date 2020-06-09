@@ -38,6 +38,12 @@ private slots:
 
     bool dataValidation_users(bool search);
 
+    void dataInFileReplace(QString inFileName, QString outFileName, QString searchRow, QString replaceRow);
+
+    void on_editBook_clicked();
+
+    void on_editUser_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

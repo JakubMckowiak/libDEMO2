@@ -503,7 +503,6 @@ void MainWindow::on_giveBookToUser_clicked()
     }
 }
 
-
 void MainWindow::on_returnBookFromUser_clicked()
 {
     int userRow = ui->tableWidgetUserBooks->currentRow();   //getting selected row's number from a table
@@ -995,4 +994,147 @@ bool MainWindow::dataValidation_users(bool search){
     //END OF FEEDBACK
 
     return check;
+}
+
+void  MainWindow::dataInFileReplace(QString inFileName, QString outFileName, QString searchRow, QString replaceRow){
+
+    QString bufforLine = ".";
+
+    QFile fileIn(inFileName);              //the file we'll read from
+        if(!fileIn.open(QIODevice::ReadOnly|QIODevice::Text)){
+            return;
+        }
+    QTextStream in(&fileIn);
+
+    QFile fileOut(outFileName);       //the file we'll write to
+        if(!fileOut.open(QIODevice::WriteOnly|QIODevice::Text)){
+            return;
+        }
+
+    QTextStream out(&fileOut);
+    bool safetyFirst=0;     //this variable is being used to prevent program from braking
+                            //caused by inserting two empty lines at the end of a file
+        while(!bufforLine.isNull())
+        {
+            bufforLine = in.readLine();
+            if(bufforLine != searchRow){  //if the read line is eql to data selected from a row
+                                            //it won't rewrite it to the new file
+                if(!safetyFirst)
+                    out <<bufforLine;
+                else out <<"\n"<< bufforLine;
+                safetyFirst=true;
+            }
+            else{
+                if(!safetyFirst)
+                    out <<replaceRow;
+                else out <<"\n"<< replaceRow;
+                safetyFirst=true;
+            }
+        }
+
+        fileIn.close();
+        fileOut.close();
+
+        remove("Books.txt"); //deleting the old file
+        rename("BooksBuffor.txt","Books.txt"); //files' names cleaning
+}
+
+void MainWindow::on_editBook_clicked()
+{
+    int currentRow = ui->tableWidget->currentRow();
+    if(currentRow!=-1){
+        //the line below ensure's us, that there is any data checked to be swaped
+    if(ui->checkBoxTitle->isChecked()||ui->checkBoxFirstName->isChecked()||ui->checkBoxSurname->isChecked()||ui->checkBoxYear->isChecked()||ui->checkBoxGenere->isChecked()){
+    if(MainWindow::dataValidation_books(true)){
+        QString searchRow, replaceRow, bufforReplacement;
+        //searchRow is the string that imitates the line we'd like to change
+        //replaceRow is the string we are going to put into the file in the place of the outdated data
+        //bufforReplacement is here se we can create replaceRow based on searchRow
+        for (int i = 0; i<6 ;i++) {
+            bufforReplacement = ui->tableWidget->item(currentRow,i)->text();
+            searchRow = searchRow + bufforReplacement + '|';
+
+            if(i==0&&ui->checkBoxTitle->isChecked()){
+            replaceRow = replaceRow + ui->inputAddTitle->text() + '|';
+            ui->tableWidget->setItem(currentRow,i,new QTableWidgetItem(ui->inputAddTitle->text()));
+            }
+
+            else if(i==1&&ui->checkBoxFirstName->isChecked()){
+            replaceRow = replaceRow + ui->inputAddFirstName->text() + '|';
+            ui->tableWidget->setItem(currentRow,i,new QTableWidgetItem(ui->inputAddFirstName->text()));
+            }
+
+            else if(i==2&&ui->checkBoxSurname->isChecked()){
+            replaceRow = replaceRow + ui->inputAddSurname->text() + '|';
+            ui->tableWidget->setItem(currentRow,i,new QTableWidgetItem(ui->inputAddSurname->text()));
+            }
+
+            else if(i==3&&ui->checkBoxYear->isChecked()){
+            replaceRow = replaceRow + ui->inputAddSurname->text() + '|';
+            ui->tableWidget->setItem(currentRow,i,new QTableWidgetItem(ui->inputAddYear->text()));
+            }
+
+            else if(i==4&&ui->checkBoxGenere->isChecked()){
+            replaceRow = replaceRow + ui->inputAddGenere->currentText() + '|';
+            ui->tableWidget->setItem(currentRow,i,new QTableWidgetItem(ui->inputAddGenere->currentText()));
+            }
+
+            else replaceRow = replaceRow + bufforReplacement + '|';
+        }
+
+       MainWindow::dataInFileReplace("Books.txt", "BooksBuffor.txt", searchRow, replaceRow);
+       QMessageBox::information(this,"Success!","Books has been edited",QMessageBox::Ok);
+    }
+    }
+    else QMessageBox::information(this,"Error","Please check the equivalent checkboxes for the parameters of the book, you want to edit",QMessageBox::Ok);
+    }
+    else QMessageBox::information(this,"Error","Please, select the book from the table first",QMessageBox::Ok);
+}
+
+void MainWindow::on_editUser_clicked()
+{
+    int currentRow = ui->tableWidgetUsers->currentRow();
+    if(currentRow!=-1){
+        //the line below ensure's us, that there is any data checked to be swaped
+    if(ui->checkBoxUserID->isChecked()||ui->checkBoxUserFirstName->isChecked()||ui->checkBoxUserSurname->isChecked()||ui->checkBoxUserEmail->isChecked()){
+    if(MainWindow::dataValidation_users(true)){
+        QString searchRow, replaceRow, bufforReplacement;
+        //searchRow is the string that imitates the line we'd like to change
+        //replaceRow is the string we are going to put into the file in the place of the outdated data
+        //bufforReplacement is here se we can create replaceRow based on searchRow
+        for (int i = 0; i<5 ;i++) {
+            bufforReplacement = ui->tableWidgetUsers->item(currentRow,i)->text();
+            searchRow = searchRow + bufforReplacement + '|';
+
+            if(i==0&&ui->checkBoxUserID->isChecked()){
+            replaceRow = replaceRow + ui->inputUserID->text() + '|';
+            ui->tableWidgetUsers->setItem(currentRow,i,new QTableWidgetItem(ui->inputUserID->text()));
+            }
+
+            else if(i==1&&ui->checkBoxUserFirstName->isChecked()){
+            replaceRow = replaceRow + ui->inputUserFirstName->text() + '|';
+            ui->tableWidgetUsers->setItem(currentRow,i,new QTableWidgetItem(ui->inputUserFirstName->text()));
+            }
+
+            else if(i==2&&ui->checkBoxUserSurname->isChecked()){
+            replaceRow = replaceRow + ui->inputUserSurname->text() + '|';
+            ui->tableWidgetUsers->setItem(currentRow,i,new QTableWidgetItem(ui->inputUserSurname->text()));
+            }
+
+            else if(i==3&&ui->checkBoxUserEmail->isChecked()){
+            replaceRow = replaceRow + ui->inputUserEmail->text() + '|';
+            ui->tableWidgetUsers->setItem(currentRow,i,new QTableWidgetItem(ui->inputUserEmail->text()));
+            }
+
+            else replaceRow = replaceRow + bufforReplacement + '|';
+        }
+
+       MainWindow::dataInFileReplace("Books.txt", "BooksBuffor.txt", searchRow, replaceRow);
+       QMessageBox::information(this,"Success!","User has been edited",QMessageBox::Ok);
+    }
+
+    }
+    else QMessageBox::information(this,"Error","Please check the equivalent checkboxes for the parameters of the user, you want to edit",QMessageBox::Ok);
+    }
+    else QMessageBox::information(this,"Error","Please, select the user from the table first",QMessageBox::Ok);
 }
