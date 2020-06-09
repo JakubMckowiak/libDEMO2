@@ -175,13 +175,17 @@ void MainWindow::on_findBook_clicked()
     }
 }
 
-void MainWindow::on_deleteBook_clicked(){    //the method operates on two .txt files
+void MainWindow::on_deleteBook_clicked(){
+                                             //the method operates on two .txt files
                                             //(Books.txt and BooksBuffor.txt) rewrinting everyting except
                                             //data selected from the table (variable SelectedRow)
+    if (ui->tableWidget->currentRow()<0)QMessageBox::information(this,"Error","Please select book from table first",QMessageBox::Ok);
+    else{
+
     if(ui->tableWidget->item(ui->tableWidget->currentRow(),5)->text()=="0"){
     int row = ui->tableWidget->currentRow();
-    if (row==-1)QMessageBox::information(this,"Error","Please select book from table first",QMessageBox::Ok);
-    else{
+
+
 
     QString SelectedRow;
 
@@ -225,8 +229,8 @@ void MainWindow::on_deleteBook_clicked(){    //the method operates on two .txt f
         remove("Books.txt"); //deleting the old file
         rename("BooksBuffor.txt","Books.txt"); //files' names cleaning
     }
+        else QMessageBox::information(this,"Error","Before wiping data about the book, it must be returned to the library",QMessageBox::Ok);
     }
-    else QMessageBox::information(this,"Error","Before wiping data about the book, it must be returned to the library",QMessageBox::Ok);
 }
 
 //
@@ -236,6 +240,23 @@ void MainWindow::on_deleteBook_clicked(){    //the method operates on two .txt f
 void MainWindow::on_submitUserAdd_clicked()
 {
     if(MainWindow::dataValidation_users(false)){
+
+    //Now, we are going to check if the Id is already existing in the file
+    //isIiAlreadyThere will show us if id or email is already existing
+    bool isItAlreadyThere = false;
+    QFile fileIdCheck("Users.txt");
+    if(!fileIdCheck.open(QFile::ReadOnly|QFile::Text)){
+        return;
+    }
+    QTextStream in(&fileIdCheck);
+    QString bufforLine = in.readLine();
+    while(!bufforLine.isNull()){
+        if(bufforLine.contains('$'+ui->inputUserID->text()+'$')||bufforLine.contains('$'+ui->inputUserEmail->text()+'$'))isItAlreadyThere=true;
+                bufforLine = in.readLine();
+    }
+    fileIdCheck.close();
+    //
+    if(!isItAlreadyThere){
     QFile file("Users.txt");
     if(!file.open(QFile::WriteOnly|QFile::Text|QIODevice::Append)){
         return;
@@ -253,6 +274,8 @@ void MainWindow::on_submitUserAdd_clicked()
     }
     file.flush();
     file.close();
+    }
+    else QMessageBox::information(this,"Error","The email or id number has been already used!",QMessageBox::Ok);
     }
 }
 
@@ -339,7 +362,7 @@ void MainWindow::on_deleteUser_clicked()
     int row = ui->tableWidgetUsers->currentRow();
     if (row==-1)QMessageBox::information(this,"Error","Please select user from table first",QMessageBox::Ok);
     else{
-        if(ui->tableWidgetUsers->item(row,4)->text()==0){ //if the user still has any books on his counter,
+        if(ui->tableWidgetUsers->item(row,4)->text()=='0'){ //if the user still has any books on his counter,
                                                           //our system won't allow to delete his account
     QString SelectedRow;
 
@@ -618,10 +641,11 @@ void MainWindow::on_returnBookFromUser_clicked()
 
 void MainWindow::on_editUserBooks_clicked()
 {
+    if(ui->tableWidgetUsers->currentRow()>0){
     int j=0;
     int userRow = ui->tableWidgetUsers->currentRow();   //getting selected row's number from a table
     QString bufforKey,id = ui->tableWidgetUsers->item(userRow,0)->text();
-    if(userRow!=-1){
+
         ui->tableWidgetUserBooks->clearContents(); //clearing table before writing on it
 
         QFile file("Books.txt");

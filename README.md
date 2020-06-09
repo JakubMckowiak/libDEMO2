@@ -31,6 +31,8 @@ There are no more planned functions to be made
 - [x] When book is deleted, user's counter is not decreased (block the action)
 - [x] 'Find the book' method not wiping previous searches
 - [x] The whole project needs validation of data (year as only 4 number char; email contains '@' etc.)
+- [x] Id and emails could be reused for many users (validated)
+- [x] 'Delete the user' when clicked shown error about books not being returned, even tho the counter was on 0 (fix: 0 != '0');
 
 
 
