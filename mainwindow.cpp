@@ -252,11 +252,28 @@ void MainWindow::on_submitUserAdd_clicked()
         return;
     }
     QTextStream in(&fileIdCheck);
-    QString bufforLine = in.readLine();
-    while(!bufforLine.isNull()){
-        if(bufforLine.contains('$'+ui->inputUserID->text()+'$')||bufforLine.contains('$'+ui->inputUserEmail->text()+'$'))isItAlreadyThere=true;
-                bufforLine = in.readLine();
-    }
+        QString bufforLine = in.readLine(); //var to read following lines from the file
+        QString bufforKey;                  //var to get a certain information
+        while(!bufforLine.isNull()){
+
+            for (int i = 0;i<4;i++) {
+                //x={0,3} are the places in the table that contain ID and email
+                //the two following lines give us clean certain data from a file
+                bufforKey=bufforLine.chopped(bufforLine.length()-bufforLine.indexOf('$'));
+                bufforLine.remove(bufforKey+'$');
+
+                if(i==0){
+                    if(bufforKey == ui->inputUserID->text()||bufforKey.contains(ui->inputUserID->text())||ui->inputUserID->text().contains(bufforKey))
+                        isItAlreadyThere=true;
+                }
+
+                if(i==3){
+                    if(bufforKey == ui->inputUserEmail->text()||bufforKey.contains(ui->inputUserEmail->text()))
+                        isItAlreadyThere=true;
+                }
+            }
+            bufforLine = in.readLine();
+        }
     fileIdCheck.close();
     //
     if(!isItAlreadyThere){
@@ -405,7 +422,8 @@ void MainWindow::on_deleteUser_clicked()
         fileOut.close();
 
         remove("Users.txt"); //deleting the old file
-        rename("UsersBuffor.txt","Books.txt"); //files' names cleaning
+        rename("UsersBuffor.txt","Users.txt"); //files' names cleaning
+        QMessageBox::information(this,"Success!","The users has been deleted",QMessageBox::Ok);
         }
         else QMessageBox::information(this,"Error","Cannot delete the user, until he doesn't return books",QMessageBox::Ok);
     }
@@ -700,7 +718,16 @@ bool MainWindow::dataValidation_books(bool search){
     for (int i = 1;stringBuffor.length()>i;i++) {
         while(stringBuffor[i]==' '&&stringBuffor[i+1]==' ')
             stringBuffor.remove(i,1);
+        while(stringBuffor[i]=='-'&&stringBuffor[i+1]=='-')
+            stringBuffor.remove(i,1);
+        while(stringBuffor[i]==' '&&stringBuffor[i+1]=='-')
+            stringBuffor.remove(i,1);
+        while(stringBuffor[i]=='-'&&stringBuffor[i+1]==' ')
+            stringBuffor.remove(i,1);
     }
+
+    while(stringBuffor[0]=='-')
+        stringBuffor.remove(0,1);
 
     //Formatting incorect (in mean of capitalization) input text
     QChar a = stringBuffor[0].toUpper();
@@ -742,7 +769,16 @@ bool MainWindow::dataValidation_books(bool search){
     for (int i = 1;stringBuffor.length()>i;i++) {
         while(stringBuffor[i]==' '&&stringBuffor[i+1]==' ')
             stringBuffor.remove(i,1);
+        while(stringBuffor[i]=='-'&&stringBuffor[i+1]=='-')
+            stringBuffor.remove(i,1);
+        while(stringBuffor[i]==' '&&stringBuffor[i+1]=='-')
+            stringBuffor.remove(i,1);
+        while(stringBuffor[i]=='-'&&stringBuffor[i+1]==' ')
+            stringBuffor.remove(i,1);
     }
+
+    while(stringBuffor[0]=='-')
+        stringBuffor.remove(0,1);
 
     //Formatting incorect (in mean of capitalization) input text
     a = stringBuffor[0].toUpper();
@@ -836,7 +872,7 @@ bool MainWindow::dataValidation_users(bool search){
     //(ASCII: 48-58 AND MAX 20 DIGITS MIN 1 AND NOT SMALLER THAN 1 [0 IS RESERVED FOR THE LIBRARY])
 
     if((search==true&&filterId==true)||search==false){
-    if(ui->inputUserID->text().length()>20||(ui->inputUserID->text().toLong())<1) raportId=false;
+    if(ui->inputUserID->text().length()!=9||ui->inputUserID->text().toLong()<1) raportId=false;
     for(int i=32;i<48;i++){
     if(ui->inputUserID->text().contains(i)) raportId=false;
     }
@@ -862,11 +898,16 @@ bool MainWindow::dataValidation_users(bool search){
     for (int i = 1;stringBuffor.length()>i;i++) {
         while(stringBuffor[i]==' '&&stringBuffor[i+1]==' ')
             stringBuffor.remove(i,1);
+        while(stringBuffor[i]=='-'&&stringBuffor[i+1]=='-')
+            stringBuffor.remove(i,1);
+        while(stringBuffor[i]==' '&&stringBuffor[i+1]=='-')
+            stringBuffor.remove(i,1);
+        while(stringBuffor[i]=='-'&&stringBuffor[i+1]==' ')
+            stringBuffor.remove(i,1);
     }
 
-    //We've observed that there is space sign automatically added to textline when clicked
-    //so right there we are preventing the user from raging
-    if(stringBuffor[0]==' ')stringBuffor.remove(0,1);
+    while(stringBuffor[0]=='-')
+        stringBuffor.remove(0,1);
 
     //Formatting incorect (in mean of capitalization) input text
     QChar a = stringBuffor[0].toUpper();
@@ -908,8 +949,16 @@ bool MainWindow::dataValidation_users(bool search){
     for (int i = 1;stringBuffor.length()>i;i++) {
         while(stringBuffor[i]==' '&&stringBuffor[i+1]==' ')
             stringBuffor.remove(i,1);
+        while(stringBuffor[i]=='-'&&stringBuffor[i+1]=='-')
+            stringBuffor.remove(i,1);
+        while(stringBuffor[i]==' '&&stringBuffor[i+1]=='-')
+            stringBuffor.remove(i,1);
+        while(stringBuffor[i]=='-'&&stringBuffor[i+1]==' ')
+            stringBuffor.remove(i,1);
     }
 
+    while(stringBuffor[0]=='-')
+        stringBuffor.remove(0,1);
 
     //Formatting incorect (in mean of capitalization) input text
     a = stringBuffor[0].toUpper();
@@ -1009,7 +1058,7 @@ bool MainWindow::dataValidation_users(bool search){
     }
 
     if(raportId==false){
-        QMessageBox::information(this,"Error","Incorrect format of the inputed ID number (choose from 1 to 999999999)\nWe highly recommend using phone numbers as ID numbers",QMessageBox::Ok);
+        QMessageBox::information(this,"Error","Incorrect format of the inputed ID number (choose from 000000001 to 999999999)\nWe highly recommend using phone numbers as ID numbers",QMessageBox::Ok);
         check=false;
     }
 
@@ -1062,8 +1111,16 @@ void  MainWindow::dataInFileReplace(QString inFileName, QString outFileName, QSt
         fileIn.close();
         fileOut.close();
 
+if(inFileName=="Books.txt"&&outFileName=="BooksBuffor.txt"){
         remove("Books.txt"); //deleting the old file
         rename("BooksBuffor.txt","Books.txt"); //files' names cleaning
+}
+
+if(inFileName=="Users.txt"&&outFileName=="UsersBuffor.txt"){
+        remove("Users.txt"); //deleting the old file
+        rename("UsersBuffor.txt","Users.txt"); //files' names cleaning
+}
+
 }
 
 void MainWindow::on_editBook_clicked()
@@ -1131,32 +1188,32 @@ void MainWindow::on_editUser_clicked()
         //bufforReplacement is here se we can create replaceRow based on searchRow
         for (int i = 0; i<5 ;i++) {
             bufforReplacement = ui->tableWidgetUsers->item(currentRow,i)->text();
-            searchRow = searchRow + bufforReplacement + '|';
+            searchRow = searchRow + bufforReplacement + '$';
 
             if(i==0&&ui->checkBoxUserID->isChecked()){
-            replaceRow = replaceRow + ui->inputUserID->text() + '|';
+            replaceRow = replaceRow + ui->inputUserID->text() + '$';
             ui->tableWidgetUsers->setItem(currentRow,i,new QTableWidgetItem(ui->inputUserID->text()));
             }
 
             else if(i==1&&ui->checkBoxUserFirstName->isChecked()){
-            replaceRow = replaceRow + ui->inputUserFirstName->text() + '|';
+            replaceRow = replaceRow + ui->inputUserFirstName->text() + '$';
             ui->tableWidgetUsers->setItem(currentRow,i,new QTableWidgetItem(ui->inputUserFirstName->text()));
             }
 
             else if(i==2&&ui->checkBoxUserSurname->isChecked()){
-            replaceRow = replaceRow + ui->inputUserSurname->text() + '|';
+            replaceRow = replaceRow + ui->inputUserSurname->text() + '$';
             ui->tableWidgetUsers->setItem(currentRow,i,new QTableWidgetItem(ui->inputUserSurname->text()));
             }
 
             else if(i==3&&ui->checkBoxUserEmail->isChecked()){
-            replaceRow = replaceRow + ui->inputUserEmail->text() + '|';
+            replaceRow = replaceRow + ui->inputUserEmail->text() + '$';
             ui->tableWidgetUsers->setItem(currentRow,i,new QTableWidgetItem(ui->inputUserEmail->text()));
             }
 
-            else replaceRow = replaceRow + bufforReplacement + '|';
+            else replaceRow = replaceRow + bufforReplacement + '$';
         }
 
-       MainWindow::dataInFileReplace("Books.txt", "BooksBuffor.txt", searchRow, replaceRow);
+       MainWindow::dataInFileReplace("Users.txt", "UsersBuffor.txt", searchRow, replaceRow);
        QMessageBox::information(this,"Success!","User has been edited",QMessageBox::Ok);
     }
 

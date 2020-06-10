@@ -31,13 +31,13 @@ There are no more planned functions to be made
 - [x] When book is deleted, user's counter is not decreased (block the action)
 - [x] 'Find the book' method not wiping previous searches
 - [x] The whole project needs validation of data (year as only 4 number char; email contains '@' etc.)
-- [x] Id and emails could be reused for many users (validated)
+- [x] ID and emails could be reused for many users (validated)
 - [x] 'Delete the user' when clicked shown error about books not being returned, even tho the counter was on 0 (fix: 0 != '0');
-
-
+- [x] 'Delete the user' was wrongly operating on a file, so every time a user was deleted - the whole Users.txt was gone for the program
+- [x] ID numbers could be partly reused which entirely broke the code (limited the numbers of digits to 9 and only 9)
+- [x] 'Edit the User' didn't actually edit the user (only changed the data on a table)
 
 ##### Known issues to fix:
 
 - [ ] Testing in progress
 
-  
