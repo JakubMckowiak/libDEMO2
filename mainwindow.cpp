@@ -6,7 +6,9 @@
 #include <QString>
 #include <QMessageBox>
 #include <QChar>
-
+#include <QPushButton>
+#include <QLineEdit>
+#include<QAbstractItemView>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -48,6 +50,7 @@ MainWindow::~MainWindow()
 //
 
 //function for adding new books
+
 
 void MainWindow::on_submitAddBook_clicked()
 {
