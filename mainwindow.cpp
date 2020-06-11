@@ -753,7 +753,7 @@ bool MainWindow::dataValidation_books(bool search){
     }
     }
     //if the input is valid, we put the formatted data back to the textline we took it from
-    if(raportFirstName&&filterFirstName)ui->inputAddFirstName->setText(stringBuffor);
+    if(raportFirstName)ui->inputAddFirstName->setText(stringBuffor);
 
     //END OF FIRST NAME VALIDATION
 
@@ -804,7 +804,7 @@ bool MainWindow::dataValidation_books(bool search){
         }
     }
     //if the input is valid, we put the formatted data back to the textline we took it from
-    if(raportSurname&&filterSurname)ui->inputAddSurname->setText(stringBuffor);
+    if(raportSurname)ui->inputAddSurname->setText(stringBuffor);
 
     //END OF SURNAME VALIDATION
 
@@ -834,12 +834,12 @@ bool MainWindow::dataValidation_books(bool search){
     //FEEDBACK ON WHAT'S WRONG USING MESSAGEBOXES
 
     if(raportFirstName==false){
-        QMessageBox::information(this,"Error","Incorrect format of the inputed first name (cannot use special characters and start with a capital letter and isn't longer than 64 characteres)",QMessageBox::Ok);
+        QMessageBox::information(this,"Error","Incorrect format of the inputed first name\n(cannot use special characters and start with a capital letter\n and isn't longer than 64 characteres)",QMessageBox::Ok);
         check=false;
     }
 
     if(raportSurname==false){
-        QMessageBox::information(this,"Error","Incorrect format of the inputed surname (cannot use special characters and start with a capital letter and isn't longer than 64 characters)",QMessageBox::Ok);
+        QMessageBox::information(this,"Error","Incorrect format of the inputed surname\n(cannot use special characters and start with a capital letter\n and isn't longer than 64 characters)",QMessageBox::Ok);
         check=false;
     }
 
@@ -933,7 +933,7 @@ bool MainWindow::dataValidation_users(bool search){
     }
     }
     //if the input is valid, we put the formatted data back to the textline we took it from
-    if(raportFirstName&&filterFirstName)ui->inputUserFirstName->setText(stringBuffor);
+    if(raportFirstName)ui->inputUserFirstName->setText(stringBuffor);
 
     //END OF FIRST NAME VALIDATION
 
@@ -984,7 +984,7 @@ bool MainWindow::dataValidation_users(bool search){
         }
     }
     //if the input is valid, we put the formatted data back to the textline we took it from
-    if(raportSurname&&filterSurname)ui->inputUserSurname->setText(stringBuffor);
+    if(raportSurname)ui->inputUserSurname->setText(stringBuffor);
 
     //END OF NAMES VALIDATION
 
@@ -1028,36 +1028,38 @@ bool MainWindow::dataValidation_users(bool search){
     if(monkeyPossition == -1)raportEmail=false;
 
     //Checking every character in the input (if isn't letter, '.', or '_', or one '@')
+    QString latinBuffor = stringBuffor.toLatin1();
+
     for(int i=0;i<stringBuffor.length();i++){
-        if(!(stringBuffor[i].isLetter())&&(stringBuffor[i]!='.')&&(stringBuffor[i]!='_')&&(stringBuffor[i]!='@'))
+        if(!stringBuffor[i].isLetter()&&(!stringBuffor[i].isNumber())&&(stringBuffor[i]!='.')&&(stringBuffor[i]!='_')&&(stringBuffor[i]!='@'))
             raportEmail=false;
         if (stringBuffor[i]=='@'){
             if (i!=monkeyPossition)
                 raportEmail=false;
         }
-        }
-
+        if(stringBuffor[i]!=latinBuffor[i]) raportEmail=false;
+    }
     //the following line will check if there are any 'dots' after 'at' and if the dot is not the last character in the inputted email
-        if(-1==stringBuffor.indexOf('.',stringBuffor.indexOf('@'))&&monkeyPossition>-1&&
-                stringBuffor[stringBuffor.length()]==stringBuffor.indexOf('.',stringBuffor.indexOf('@'))) raportEmail=false;
+    //if 'name@com'                                                or 'name@mail.'                        or 'name@.com'
+        if(-1==stringBuffor.indexOf('.',stringBuffor.indexOf('@'))||stringBuffor[stringBuffor.size()]=='.'||monkeyPossition+1==stringBuffor.indexOf('.',monkeyPossition)) raportEmail=false;
     }
 
     //if the input is valid, we put the formatted data back to the textline we took it from
-    if(raportEmail&&filterEmail)ui->inputUserEmail->setText(stringBuffor);
+    if(raportEmail)ui->inputUserEmail->setText(stringBuffor);
 
 
-    //END OD EMAIL VALIDATION
+    //END OF EMAIL VALIDATION
 
 
     //FEEDBACK ON WHAT'S WRONG USING MESSAGEBOXES
 
     if(raportFirstName==false){
-        QMessageBox::information(this,"Oops!","Incorrect format of the inputed first name (cannot use special characters and start with a capital letter and cannot be longer than 64 characters)",QMessageBox::Ok);
+        QMessageBox::information(this,"Oops!","Incorrect format of the inputed first name\n(cannot use special characters and start with a capital letter and cannot be longer than 64 characters)",QMessageBox::Ok);
         check=false;
     }
 
     if(raportSurname==false){
-        QMessageBox::information(this,"Oops!","Incorrect format of the inputed surname (cannot use special characters and start with a capital letter and cannot be longer than 64 characters)",QMessageBox::Ok);
+        QMessageBox::information(this,"Oops!","Incorrect format of the inputed surname\n(cannot use special characters and start with a capital letter and cannot be longer than 64 characters)",QMessageBox::Ok);
         check=false;
     }
 
@@ -1067,7 +1069,7 @@ bool MainWindow::dataValidation_users(bool search){
     }
 
     if(raportEmail==false){
-        QMessageBox::information(this,"Oops!","Incorrect format of the inputed ID e-mail (a-z, 0-9, '.', '_', starts with a letter + @your_email_domain)",QMessageBox::Ok);
+        QMessageBox::information(this,"Oops!","Incorrect format of the inputed e-mail\n(a-z(only basic latin alphabet!), 0-9, '.', '_', starts with a letter + @your_email_domain)",QMessageBox::Ok);
         check=false;
     }
 
