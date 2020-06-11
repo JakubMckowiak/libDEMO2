@@ -468,8 +468,8 @@
    <string>LibDEMO2</string>
   </property>
   <property name="windowIcon">
-   <iconset>
-    <normaloff>iconmonstr-book-5.svg</normaloff>iconmonstr-book-5.svg</iconset>
+   <iconset resource="resources.qrc">
+    <normaloff>:/Downloads/iconmonstr-book-17.svg</normaloff>:/Downloads/iconmonstr-book-17.svg</iconset>
   </property>
   <property name="windowOpacity">
    <double>1.000000000000000</double>
@@ -1156,39 +1156,12 @@
           </item>
          </layout>
         </widget>
-        <widget class="QPushButton" name="submitAddBook">
+        <widget class="QToolButton" name="submitAddBook">
          <property name="geometry">
           <rect>
            <x>200</x>
            <y>250</y>
-           <width>141</width>
-           <height>31</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>11</pointsize>
-          </font>
-         </property>
-         <property name="cursor">
-          <cursorShape>PointingHandCursor</cursorShape>
-         </property>
-         <property name="acceptDrops">
-          <bool>true</bool>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QPushButton { background-color: darkcyan;border-width:2px;border-radius:5px;; }</string>
-         </property>
-         <property name="text">
-          <string>Add the book</string>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="deleteBook">
-         <property name="geometry">
-          <rect>
-           <x>200</x>
-           <y>370</y>
-           <width>141</width>
+           <width>150</width>
            <height>31</height>
           </rect>
          </property>
@@ -1207,10 +1180,70 @@
           <bool>false</bool>
          </property>
          <property name="styleSheet">
-          <string notr="true">QPushButton { background-color: mediumaquamarine;border-width:2px;border-radius:5px;color:darkred; }</string>
+          <string notr="true">QToolButton { background-color: darkcyan;border-width:2px;border-radius:5px;}
+</string>
+         </property>
+         <property name="text">
+          <string> Add the book</string>
+         </property>
+         <property name="icon">
+          <iconset resource="resources.qrc">
+           <normaloff>:/Downloads/iconmonstr-check-mark-5.svg</normaloff>:/Downloads/iconmonstr-check-mark-5.svg</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>17</width>
+           <height>17</height>
+          </size>
+         </property>
+         <property name="popupMode">
+          <enum>QToolButton::InstantPopup</enum>
+         </property>
+         <property name="toolButtonStyle">
+          <enum>Qt::ToolButtonTextBesideIcon</enum>
+         </property>
+        </widget>
+        <widget class="QToolButton" name="deleteBook">
+         <property name="geometry">
+          <rect>
+           <x>200</x>
+           <y>370</y>
+           <width>150</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+          </font>
+         </property>
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
+         </property>
+         <property name="acceptDrops">
+          <bool>true</bool>
+         </property>
+         <property name="autoFillBackground">
+          <bool>false</bool>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QToolButton { background-color: mediumaquamarine;border-width:2px;border-radius:5px;color:darkred; }</string>
          </property>
          <property name="text">
           <string>Delete the book</string>
+         </property>
+         <property name="icon">
+          <iconset resource="resources.qrc">
+           <normaloff>:/Downloads/iconmonstr-x-mark-5.svg</normaloff>:/Downloads/iconmonstr-x-mark-5.svg</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>17</width>
+           <height>17</height>
+          </size>
+         </property>
+         <property name="toolButtonStyle">
+          <enum>Qt::ToolButtonTextBesideIcon</enum>
          </property>
         </widget>
         <widget class="QTableWidget" name="tableWidget">
@@ -1377,12 +1410,12 @@
           </item>
          </layout>
         </widget>
-        <widget class="QPushButton" name="findBook">
+        <widget class="QToolButton" name="findBook">
          <property name="geometry">
           <rect>
            <x>200</x>
            <y>290</y>
-           <width>141</width>
+           <width>150</width>
            <height>31</height>
           </rect>
          </property>
@@ -1492,7 +1525,7 @@
           <bool>false</bool>
          </property>
          <property name="styleSheet">
-          <string notr="true">QPushButton { background-color: #9DB1A4;border-width:2px;border-radius:5px; }</string>
+          <string notr="true">QToolButton { background-color: #9DB1A4;border-width:2px;border-radius:5px; }</string>
          </property>
          <property name="text">
           <string>Find the book</string>
@@ -1511,12 +1544,12 @@
           <string/>
          </property>
         </widget>
-        <widget class="QPushButton" name="editBook">
+        <widget class="QToolButton" name="editBook">
          <property name="geometry">
           <rect>
            <x>200</x>
            <y>330</y>
-           <width>141</width>
+           <width>150</width>
            <height>31</height>
           </rect>
          </property>
@@ -1535,7 +1568,7 @@
           <bool>false</bool>
          </property>
          <property name="styleSheet">
-          <string notr="true">QPushButton { background-color: #9DB1A4;border-width:2px;border-radius:5px; }</string>
+          <string notr="true">QToolButton { background-color: #9DB1A4;border-width:2px;border-radius:5px; }</string>
          </property>
          <property name="text">
           <string>Edit the book</string>
@@ -1551,7 +1584,7 @@
           <rect>
            <x>0</x>
            <y>10</y>
-           <width>351</width>
+           <width>361</width>
            <height>191</height>
           </rect>
          </property>
@@ -1808,12 +1841,12 @@
           </item>
          </layout>
         </widget>
-        <widget class="QPushButton" name="giveBookToUser">
+        <widget class="QToolButton" name="giveBookToUser">
          <property name="geometry">
           <rect>
            <x>200</x>
            <y>330</y>
-           <width>141</width>
+           <width>150</width>
            <height>31</height>
           </rect>
          </property>
@@ -1949,7 +1982,7 @@
           <bool>false</bool>
          </property>
          <property name="styleSheet">
-          <string notr="true">QPushButton { background-color: #9DB1A4;border-width:2px;border-radius:5px; }</string>
+          <string notr="true">QToolButton { background-color: #9DB1A4;border-width:2px;border-radius:5px; }</string>
          </property>
          <property name="text">
           <string>Possess the book</string>
@@ -1958,9 +1991,9 @@
         <widget class="QTableWidget" name="tableWidgetUsers">
          <property name="geometry">
           <rect>
-           <x>380</x>
+           <x>360</x>
            <y>10</y>
-           <width>611</width>
+           <width>631</width>
            <height>221</height>
           </rect>
          </property>
@@ -2483,12 +2516,12 @@
           </property>
          </column>
         </widget>
-        <widget class="QPushButton" name="findUser">
+        <widget class="QToolButton" name="findUser">
          <property name="geometry">
           <rect>
            <x>200</x>
            <y>250</y>
-           <width>141</width>
+           <width>150</width>
            <height>31</height>
           </rect>
          </property>
@@ -2624,18 +2657,18 @@
           <bool>false</bool>
          </property>
          <property name="styleSheet">
-          <string notr="true">QPushButton { background-color: #9DB1A4;border-width:2px;border-radius:5px; }</string>
+          <string notr="true">QToolButton { background-color: #9DB1A4;border-width:2px;border-radius:5px; }</string>
          </property>
          <property name="text">
           <string>Find the user</string>
          </property>
         </widget>
-        <widget class="QPushButton" name="submitUserAdd">
+        <widget class="QToolButton" name="submitUserAdd">
          <property name="geometry">
           <rect>
            <x>200</x>
            <y>210</y>
-           <width>141</width>
+           <width>150</width>
            <height>31</height>
           </rect>
          </property>
@@ -2801,19 +2834,35 @@
           <bool>false</bool>
          </property>
          <property name="styleSheet">
-          <string notr="true">QPushButton { background-color:darkcyan;border-width:2px;border-radius:5px;; }
-QAbstractButton{icon(Users\swieczak\libDEMO2\iconmonstr-book-5.svg)}</string>
+          <string notr="true">QToolButton { background-color:darkcyan;border-width:2px;border-radius:5px;}
+
+
+
+</string>
          </property>
          <property name="text">
-          <string>Add new user</string>
+          <string> Add new user</string>
+         </property>
+         <property name="icon">
+          <iconset resource="resources.qrc">
+           <normaloff>:/Downloads/iconmonstr-check-mark-5.svg</normaloff>:/Downloads/iconmonstr-check-mark-5.svg</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>17</width>
+           <height>17</height>
+          </size>
+         </property>
+         <property name="toolButtonStyle">
+          <enum>Qt::ToolButtonTextBesideIcon</enum>
          </property>
         </widget>
-        <widget class="QPushButton" name="deleteUser">
+        <widget class="QToolButton" name="deleteUser">
          <property name="geometry">
           <rect>
-           <x>50</x>
+           <x>30</x>
            <y>410</y>
-           <width>141</width>
+           <width>150</width>
            <height>31</height>
           </rect>
          </property>
@@ -3030,18 +3079,31 @@ QAbstractButton{icon(Users\swieczak\libDEMO2\iconmonstr-book-5.svg)}</string>
           <bool>false</bool>
          </property>
          <property name="styleSheet">
-          <string notr="true">QPushButton { background-color: mediumaquamarine;border-width:2px;border-radius:5px;color:darkred; }</string>
+          <string notr="true">QToolButton { background-color: mediumaquamarine;border-width:2px;border-radius:5px;color:darkred; }</string>
          </property>
          <property name="text">
           <string>Delete the user</string>
+         </property>
+         <property name="icon">
+          <iconset resource="resources.qrc">
+           <normaloff>:/Downloads/iconmonstr-x-mark-5.svg</normaloff>:/Downloads/iconmonstr-x-mark-5.svg</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>17</width>
+           <height>17</height>
+          </size>
+         </property>
+         <property name="toolButtonStyle">
+          <enum>Qt::ToolButtonTextBesideIcon</enum>
          </property>
         </widget>
         <widget class="QTableWidget" name="tableWidgetUserBooks">
          <property name="geometry">
           <rect>
-           <x>380</x>
+           <x>360</x>
            <y>240</y>
-           <width>611</width>
+           <width>631</width>
            <height>211</height>
           </rect>
          </property>
@@ -3575,12 +3637,12 @@ QAbstractButton{icon(Users\swieczak\libDEMO2\iconmonstr-book-5.svg)}</string>
           </property>
          </column>
         </widget>
-        <widget class="QPushButton" name="returnBookFromUser">
+        <widget class="QToolButton" name="returnBookFromUser">
          <property name="geometry">
           <rect>
            <x>200</x>
            <y>410</y>
-           <width>141</width>
+           <width>150</width>
            <height>31</height>
           </rect>
          </property>
@@ -3716,18 +3778,18 @@ QAbstractButton{icon(Users\swieczak\libDEMO2\iconmonstr-book-5.svg)}</string>
           <bool>false</bool>
          </property>
          <property name="styleSheet">
-          <string notr="true">QPushButton { background-color: #9DB1A4;border-width:2px;border-radius:5px; }</string>
+          <string notr="true">QToolButton { background-color: #9DB1A4;border-width:2px;border-radius:5px; }</string>
          </property>
          <property name="text">
           <string>Return the book</string>
          </property>
         </widget>
-        <widget class="QPushButton" name="editUserBooks">
+        <widget class="QToolButton" name="editUserBooks">
          <property name="geometry">
           <rect>
            <x>200</x>
            <y>370</y>
-           <width>141</width>
+           <width>150</width>
            <height>31</height>
           </rect>
          </property>
@@ -3863,18 +3925,18 @@ QAbstractButton{icon(Users\swieczak\libDEMO2\iconmonstr-book-5.svg)}</string>
           <bool>false</bool>
          </property>
          <property name="styleSheet">
-          <string notr="true">QPushButton { background-color: #9DB1A4;border-width:2px;border-radius:5px; }</string>
+          <string notr="true">QToolButton { background-color: #9DB1A4;border-width:2px;border-radius:5px; }</string>
          </property>
          <property name="text">
           <string>See user's books</string>
          </property>
         </widget>
-        <widget class="QPushButton" name="editUser">
+        <widget class="QToolButton" name="editUser">
          <property name="geometry">
           <rect>
            <x>200</x>
            <y>290</y>
-           <width>141</width>
+           <width>150</width>
            <height>31</height>
           </rect>
          </property>
@@ -4010,7 +4072,7 @@ QAbstractButton{icon(Users\swieczak\libDEMO2\iconmonstr-book-5.svg)}</string>
           <bool>false</bool>
          </property>
          <property name="styleSheet">
-          <string notr="true">QPushButton { background-color: #9DB1A4;border-width:2px;border-radius:5px; }</string>
+          <string notr="true">QToolButton { background-color: #9DB1A4;border-width:2px;border-radius:5px; }</string>
          </property>
          <property name="text">
           <string>Edit the user</string>
@@ -4037,6 +4099,8 @@ QAbstractButton{icon(Users\swieczak\libDEMO2\iconmonstr-book-5.svg)}</string>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

@@ -1,2 +1,7 @@
-<!DOCTYPE RCC>
-<RCC version="1.0"/>
+<RCC>
+    <qresource prefix="/">
+        <file>../Downloads/iconmonstr-check-mark-5.svg</file>
+        <file>../Downloads/iconmonstr-x-mark-5.svg</file>
+        <file>../Downloads/iconmonstr-book-17.svg</file>
+    </qresource>
+</RCC>

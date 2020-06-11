@@ -9,7 +9,6 @@
 #include <QPushButton>
 #include <QLineEdit>
 #include<QAbstractItemView>
-
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -62,7 +61,7 @@ void MainWindow::on_submitAddBook_clicked()
     QTextStream out(&file);
     if(ui->inputAddTitle->text().isEmpty()||ui->inputAddFirstName->text().isNull()||                 //if the parameters are empty, the finding method breaks
             ui->inputAddSurname->text().isNull()||ui->inputAddYear->text().isNull())                 //so this line prevents it
-        QMessageBox::information(this,"Error","Please, fill all of the parameters",QMessageBox::Ok);
+        QMessageBox::information(this,"Oops!","Please, fill all of the parameters",QMessageBox::Ok);
 
     else {
         out <<ui->inputAddTitle->text()<<'|'<<ui->inputAddFirstName->text()<<'|'                     //if the parameters are all existing
@@ -232,7 +231,7 @@ void MainWindow::on_deleteBook_clicked(){
         remove("Books.txt"); //deleting the old file
         rename("BooksBuffor.txt","Books.txt"); //files' names cleaning
     }
-        else QMessageBox::information(this,"Error","Before wiping data about the book, it must be returned to the library",QMessageBox::Ok);
+        else QMessageBox::information(this,"Oops!","Before wiping data about the book, it must be returned to the library",QMessageBox::Ok);
     }
 }
 
@@ -284,7 +283,7 @@ void MainWindow::on_submitUserAdd_clicked()
     QTextStream out(&file);
     if(ui->inputUserID->text().isEmpty()||ui->inputUserFirstName->text().isNull()||                 //if the parameters are empty, the finding method breaks
             ui->inputUserSurname->text().isNull()||ui->inputUserEmail->text().isNull())                 //so this line prevents it
-        QMessageBox::information(this,"Error","Please, fill all of the parameters",QMessageBox::Ok);
+        QMessageBox::information(this,"Oops!","Please, fill all of the parameters",QMessageBox::Ok);
 
     else {
         out << ui->inputUserID->text()<<'$'<<ui->inputUserFirstName->text()<<'$'                     //if the parameters are all existing
@@ -295,7 +294,7 @@ void MainWindow::on_submitUserAdd_clicked()
     file.flush();
     file.close();
     }
-    else QMessageBox::information(this,"Error","The email or id number has been already used!",QMessageBox::Ok);
+    else QMessageBox::information(this,"Oops!","The email or ID number has been already used!",QMessageBox::Ok);
     }
 }
 
@@ -380,7 +379,7 @@ void MainWindow::on_findUser_clicked()
 void MainWindow::on_deleteUser_clicked()
 {
     int row = ui->tableWidgetUsers->currentRow();
-    if (row==-1)QMessageBox::information(this,"Error","Please select user from table first",QMessageBox::Ok);
+    if (row==-1)QMessageBox::information(this,"Oops!","Please select user from table first",QMessageBox::Ok);
     else{
         if(ui->tableWidgetUsers->item(row,4)->text()=='0'){ //if the user still has any books on his counter,
                                                           //our system won't allow to delete his account
@@ -423,9 +422,9 @@ void MainWindow::on_deleteUser_clicked()
 
         remove("Users.txt"); //deleting the old file
         rename("UsersBuffor.txt","Users.txt"); //files' names cleaning
-        QMessageBox::information(this,"Success!","The users has been deleted",QMessageBox::Ok);
+        QMessageBox::information(this,"Success!","The user has been deleted",QMessageBox::Ok);
         }
-        else QMessageBox::information(this,"Error","Cannot delete the user, until he doesn't return books",QMessageBox::Ok);
+        else QMessageBox::information(this,"Oops!","Cannot delete the user until the books have been returned",QMessageBox::Ok);
     }
     }
 
@@ -543,7 +542,7 @@ void MainWindow::on_giveBookToUser_clicked()
 
     }
 
-    else QMessageBox::information(this,"Error","This book is not available",QMessageBox::Ok);
+    else QMessageBox::information(this,"Oops!","This book is not available",QMessageBox::Ok);
     }
 }
 
@@ -653,11 +652,11 @@ void MainWindow::on_returnBookFromUser_clicked()
                 ui->tableWidgetUserBooks->setItem(ui->tableWidgetUserBooks->currentRow(),5,new QTableWidgetItem("0"));
                 ui->tableWidgetUsers->clearContents();
                 MainWindow::on_findUser_clicked();
-                QMessageBox::information(this,"Success!","Book retunred",QMessageBox::Ok);
+                QMessageBox::information(this,"Success!","Book returned",QMessageBox::Ok);
     }
-    else QMessageBox::information(this,"Error","This book has been already returned!",QMessageBox::Ok);
+    else QMessageBox::information(this,"Oops!","This book has been already returned!",QMessageBox::Ok);
     }
-    else QMessageBox::information(this,"Error","Please select the book, that has been delevered first",QMessageBox::Ok);
+    else QMessageBox::information(this,"Oops!","Please select the book that has been delivered first",QMessageBox::Ok);
 }
 
 void MainWindow::on_editUserBooks_clicked()
@@ -690,7 +689,7 @@ void MainWindow::on_editUserBooks_clicked()
         }
 
     }
-    else QMessageBox::information(this,"Error","Please select the user first",QMessageBox::Ok);
+    else QMessageBox::information(this,"Oops!","Please select the user first",QMessageBox::Ok);
 }
 
 bool MainWindow::dataValidation_books(bool search){
@@ -1037,7 +1036,12 @@ bool MainWindow::dataValidation_users(bool search){
                 raportEmail=false;
         }
         }
+
+    //the following line will check if there are any 'dots' after 'at' and if the dot is not the last character in the inputted email
+        if(-1==stringBuffor.indexOf('.',stringBuffor.indexOf('@'))&&monkeyPossition>-1&&
+                stringBuffor[stringBuffor.length()]==stringBuffor.indexOf('.',stringBuffor.indexOf('@'))) raportEmail=false;
     }
+
     //if the input is valid, we put the formatted data back to the textline we took it from
     if(raportEmail&&filterEmail)ui->inputUserEmail->setText(stringBuffor);
 
@@ -1048,22 +1052,22 @@ bool MainWindow::dataValidation_users(bool search){
     //FEEDBACK ON WHAT'S WRONG USING MESSAGEBOXES
 
     if(raportFirstName==false){
-        QMessageBox::information(this,"Error","Incorrect format of the inputed first name (cannot use special characters and start with a capital letter and cannot be longer than 64 characteres)",QMessageBox::Ok);
+        QMessageBox::information(this,"Oops!","Incorrect format of the inputed first name (cannot use special characters and start with a capital letter and cannot be longer than 64 characters)",QMessageBox::Ok);
         check=false;
     }
 
     if(raportSurname==false){
-        QMessageBox::information(this,"Error","Incorrect format of the inputed surname (cannot use special characters and start with a capital letter and cannot be longer than 64 characteres)",QMessageBox::Ok);
+        QMessageBox::information(this,"Oops!","Incorrect format of the inputed surname (cannot use special characters and start with a capital letter and cannot be longer than 64 characters)",QMessageBox::Ok);
         check=false;
     }
 
     if(raportId==false){
-        QMessageBox::information(this,"Error","Incorrect format of the inputed ID number (choose from 000000001 to 999999999)\nWe highly recommend using phone numbers as ID numbers",QMessageBox::Ok);
+        QMessageBox::information(this,"Oops!","Incorrect format of the inputed ID number (choose from 000000001 to 999999999)\nWe highly recommend using phone numbers as ID numbers",QMessageBox::Ok);
         check=false;
     }
 
     if(raportEmail==false){
-        QMessageBox::information(this,"Error","Incorrect format of the inputed ID e-mail (a-z, 0-9, '.', '_', starts with a letter + @your_email_domain)",QMessageBox::Ok);
+        QMessageBox::information(this,"Oops!","Incorrect format of the inputed ID e-mail (a-z, 0-9, '.', '_', starts with a letter + @your_email_domain)",QMessageBox::Ok);
         check=false;
     }
 
@@ -1170,9 +1174,9 @@ void MainWindow::on_editBook_clicked()
        QMessageBox::information(this,"Success!","Books has been edited",QMessageBox::Ok);
     }
     }
-    else QMessageBox::information(this,"Error","Please check the equivalent checkboxes for the parameters of the book, you want to edit",QMessageBox::Ok);
+    else QMessageBox::information(this,"Oops!","Please check the equivalent checkboxes for the parameters of the book you want to edit",QMessageBox::Ok);
     }
-    else QMessageBox::information(this,"Error","Please, select the book from the table first",QMessageBox::Ok);
+    else QMessageBox::information(this,"Oops!","Please, select the book from the table first",QMessageBox::Ok);
 }
 
 void MainWindow::on_editUser_clicked()
@@ -1218,7 +1222,7 @@ void MainWindow::on_editUser_clicked()
     }
 
     }
-    else QMessageBox::information(this,"Error","Please check the equivalent checkboxes for the parameters of the user, you want to edit",QMessageBox::Ok);
+    else QMessageBox::information(this,"Oops!","Please check the equivalent checkboxes for the parameters of the user you want to edit",QMessageBox::Ok);
     }
-    else QMessageBox::information(this,"Error","Please, select the user from the table first",QMessageBox::Ok);
+    else QMessageBox::information(this,"Oops!","Please, select the user from the table first",QMessageBox::Ok);
 }
