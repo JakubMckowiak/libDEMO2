@@ -248,7 +248,7 @@ void MainWindow::on_submitUserAdd_clicked()
     //isIiAlreadyThere will show us if id or email is already existing
     bool isItAlreadyThere = false;
     QFile fileIdCheck("Users.txt");
-    if(!fileIdCheck.open(QFile::ReadOnly|QFile::Text)){
+    if(!fileIdCheck.open(QFile::ReadWrite|QFile::Text)){
         return;
     }
     QTextStream in(&fileIdCheck);
@@ -924,7 +924,7 @@ bool MainWindow::dataValidation_users(bool search){
 
     if((search==true&&filterFirstName==true)||search==false){
 
-    //Input cannot be longer than 64 characters (should be enought for a name)
+    //Input cannot be longer than 64 characters (should be enough for a name)
         if(stringBuffor.length()>63) raportFirstName = false;
 
     //Checking every character in the input (if isn't letter, '-', or ' ')
