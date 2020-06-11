@@ -1,7 +1,7 @@
 <RCC>
     <qresource prefix="/">
-        <file>iconmonstr-book-17.svg</file>
         <file>iconmonstr-check-mark-5.svg</file>
         <file>iconmonstr-x-mark-5.svg</file>
+        <file>iconmonstr-book-17.ico</file>
     </qresource>
 </RCC>

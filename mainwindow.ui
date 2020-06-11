@@ -469,7 +469,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="resources.qrc">
-    <normaloff>:/iconmonstr-book-17.svg</normaloff>:/iconmonstr-book-17.svg</iconset>
+    <normaloff>:/iconmonstr-book-17.ico</normaloff>:/iconmonstr-book-17.ico</iconset>
   </property>
   <property name="windowOpacity">
    <double>1.000000000000000</double>
