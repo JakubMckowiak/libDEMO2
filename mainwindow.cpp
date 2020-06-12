@@ -629,12 +629,12 @@ void MainWindow::on_returnBookFromUser_clicked()
                         for(int i=0; i<4; i++){
                             bufforLine = bufforLine.remove(0,bufforLine.indexOf('$')+1);
                         }
-                        SelectedRow.remove(bufforLine);
+                        SelectedRow.remove('$'+bufforLine);
                         bufforLine = bufforLine.remove('$');
                         amountOfBooks = bufforLine.toInt();
                         amountOfBooks--;
 
-                        SelectedRow = SelectedRow + QString::number(amountOfBooks) + '$';
+                        SelectedRow = SelectedRow + '$' + QString::number(amountOfBooks) + '$';
 
                         if(!safetyFirst)
                             outUser <<SelectedRow;
