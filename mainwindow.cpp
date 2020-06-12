@@ -67,7 +67,7 @@ void MainWindow::on_submitAddBook_clicked()
         out <<ui->inputAddTitle->text()<<'|'<<ui->inputAddFirstName->text()<<'|'                     //if the parameters are all existing
         <<ui->inputAddSurname->text()<<'|'<<ui->inputAddYear->text()<<'|'                            //the book can be added to the Books.txt
         <<ui->inputAddGenere->currentText()<<"|0|\n";
-        QMessageBox::information(this,"Succeess!","The books has been added",QMessageBox::Ok);
+        QMessageBox::information(this,"Succeess!","The book has been added",QMessageBox::Ok);
     }
     file.flush();
     file.close();
